@@ -16,7 +16,7 @@ import com.rabbitmq.client.QueueingConsumer;
  */
 public class ConfirmDontLoseMessages {
 
-    static int msgCount = 10000;
+    static int msgCount = 1000000;
 
     final static String QUEUE_NAME = "confirm-test";
 
@@ -36,9 +36,9 @@ public class ConfirmDontLoseMessages {
         connectionFactory.setConnectionTimeout(2000);
 
         // Consume msgCount messages.
-        (new Thread(new Consumer())).start();
+        (new Thread(new Consumer(),"consumer")).start();
         // Publish msgCount messages and wait for confirms.
-        (new Thread(new Publisher())).start();
+        (new Thread(new Publisher(),"publisher")).start();
     }
 
     @SuppressWarnings("ThrowablePrintedToSystemOut")
@@ -59,6 +59,7 @@ public class ConfirmDontLoseMessages {
                     ch.basicPublish("", QUEUE_NAME,
                             MessageProperties.PERSISTENT_BASIC,
                             "nop".getBytes());
+                    Thread.currentThread().sleep(1000);
                 }
 
                 ch.waitForConfirms();

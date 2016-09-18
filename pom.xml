@@ -9,11 +9,13 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>rabbitmq</module>
+        <module>netty</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
     <properties>
         <rabbitmq.version>3.6.5</rabbitmq.version>
+        <netty.version>4.1.5.Final</netty.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -22,6 +24,11 @@
                   <groupId>com.rabbitmq</groupId>
                   <artifactId>amqp-client</artifactId>
                   <version>${rabbitmq.version}</version>
+              </dependency>
+              <dependency>
+                  <groupId>io.netty</groupId>
+                  <artifactId>netty-all</artifactId>
+                  <version>${netty.version}</version>
               </dependency>
           </dependencies>
     </dependencyManagement>
