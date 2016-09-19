@@ -31,10 +31,14 @@ public class StrServer {
                 @Override
                 protected void initChannel(NioSocketChannel ch) throws Exception {
                     ch.pipeline().addLast(new MessageDecoder(), new ServerHandler());
+                    //手动接受新注册连接的内容读取
+                    ch.read();
                 }
             });
             bootstrapServer.option(ChannelOption.SO_BACKLOG, 128);
             bootstrapServer.childOption(ChannelOption.SO_KEEPALIVE, true);
+            //设置非自动读取内容
+            //bootstrapServer.childOption(ChannelOption.AUTO_READ, false);
             ChannelFuture f = bootstrapServer.bind(port).sync();
             f.channel().closeFuture().sync();
         } finally {
