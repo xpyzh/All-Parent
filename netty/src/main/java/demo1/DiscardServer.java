@@ -15,11 +15,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class DiscardServer {
 
     private int port = 8080;
+
     public DiscardServer() {
     }
+
     public DiscardServer(int port) {
         this.port = port;
     }
+
     public void run() throws Exception {
         EventLoopGroup boosGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
@@ -40,8 +43,11 @@ public class DiscardServer {
         } finally {
             workGroup.shutdownGracefully();
             boosGroup.shutdownGracefully();
+            workGroup.terminationFuture().sync();
+            boosGroup.terminationFuture().sync();
         }
     }
+
     public static void main(String[] args) throws Exception {
         new DiscardServer().run();
     }

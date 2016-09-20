@@ -17,12 +17,15 @@ public class TimeClient {
     private int port = 8080;
 
     private String host = "127.0.0.1";
+
     public TimeClient() {
     }
+
     public TimeClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
+
     public void run() throws Exception {
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
@@ -40,8 +43,10 @@ public class TimeClient {
             channelFuture.channel().closeFuture().sync();
         } finally {
             workGroup.shutdownGracefully();
+            workGroup.terminationFuture().sync();
         }
     }
+
     public static void main(String[] args) throws Exception {
         new TimeClient().run();
     }

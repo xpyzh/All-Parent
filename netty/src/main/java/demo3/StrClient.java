@@ -47,6 +47,7 @@ public class StrClient {
             if (f != null) {
                 f.channel().closeFuture().sync();
                 work.shutdownGracefully();
+                work.terminationFuture().sync();
             }
         }
     }

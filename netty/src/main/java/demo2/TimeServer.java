@@ -15,11 +15,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class TimeServer {
 
     private int port = 8080;
+
     public TimeServer() {
     }
+
     public TimeServer(int port) {
         this.port = port;
     }
+
     public void run() throws Exception {
         EventLoopGroup boosGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
@@ -40,8 +43,11 @@ public class TimeServer {
         } finally {
             workGroup.shutdownGracefully();
             boosGroup.shutdownGracefully();
+            workGroup.terminationFuture().sync();
+            boosGroup.terminationFuture().sync();
         }
     }
+
     public static void main(String[] args) throws Exception {
         new TimeServer().run();
     }
