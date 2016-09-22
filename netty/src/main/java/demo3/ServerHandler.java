@@ -1,7 +1,5 @@
 package demo3;
 
-import com.google.common.base.Strings;
-import com.sun.tools.javac.util.StringUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
