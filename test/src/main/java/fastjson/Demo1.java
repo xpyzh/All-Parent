@@ -36,13 +36,15 @@ public class Demo1 {
     }
 
     public static void main(String[] args) {
-        Demo1 demo1 = new Demo1();
-        demo1.setIsExist(true);
-        demo1.setFlag(true);
-        String jsonStr1 = JSON.toJSONString(demo1);
-        String jsonStr2 = JSONObject.toJSONString(demo1);
-        System.out.println(jsonStr1);
-        System.out.println(jsonStr2);
+//        Demo1 demo1 = new Demo1();
+//        demo1.setIsExist(true);
+//        demo1.setFlag(true);
+//        String jsonStr1 = JSON.toJSONString(demo1);
+//        String jsonStr2 = JSONObject.toJSONString(demo1);
+//        System.out.println(jsonStr1);
+//        System.out.println(jsonStr2);
+        EmailMessageBean emailMessageBean=new EmailMessageBean();
+        System.out.println(JSON.toJSONString(emailMessageBean));
 
     }
 
