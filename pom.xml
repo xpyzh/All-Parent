@@ -18,8 +18,8 @@
         <rabbitmq.version>3.6.5</rabbitmq.version>
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
-        <!--<fast.json.version>1.2.17</fast.json.version>-->
-        <fast.json.version>1.2.4</fast.json.version>
+        <fast.json.version>1.2.17</fast.json.version>
+        <!--<fast.json.version>1.2.4</fast.json.version>-->
 
     </properties>
     <!--管理依赖-->
@@ -47,5 +47,18 @@
               </dependency>
           </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
