@@ -10,6 +10,7 @@
     <modules>
         <module>rabbitmq</module>
         <module>netty</module>
+        <module>test</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -17,6 +18,7 @@
         <rabbitmq.version>3.6.5</rabbitmq.version>
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
+        <fast.json.version>1.2.17</fast.json.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -35,6 +37,11 @@
                   <groupId>com.google.guava</groupId>
                   <artifactId>guava</artifactId>
                   <version>${guava.version}</version>
+              </dependency>
+              <dependency>
+                  <groupId>com.alibaba</groupId>
+                  <artifactId>fastjson</artifactId>
+                  <version>${fast.json.version}</version>
               </dependency>
           </dependencies>
     </dependencyManagement>
