@@ -19,6 +19,7 @@
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
         <fast.json.version>1.2.4</fast.json.version>
+        <slf4j.version>1.7.5</slf4j.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 
     </properties>
@@ -44,6 +45,16 @@
                   <groupId>com.alibaba</groupId>
                   <artifactId>fastjson</artifactId>
                   <version>${fast.json.version}</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-api</artifactId>
+                  <version>${slf4j.version}</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-simple</artifactId>
+                  <version>${slf4j.version}</version>
               </dependency>
           </dependencies>
     </dependencyManagement>
