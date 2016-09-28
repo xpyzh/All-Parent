@@ -3,6 +3,7 @@ package fastjson;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by hzyouzhihao on 2016/9/22.
@@ -57,6 +58,7 @@ public class Demo1 {
         demo1.setIsExist(true);
         demo1.setFlag(true);
         System.out.println(JSONObject.toJSONString(demo1));
+
     }
 
 }
