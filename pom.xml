@@ -21,43 +21,57 @@
         <fast.json.version>1.2.4</fast.json.version>
         <slf4j.version>1.7.5</slf4j.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+        <junit.version>4.12</junit.version>
 
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
-          <dependencies>
-              <dependency>
-                  <groupId>com.rabbitmq</groupId>
-                  <artifactId>amqp-client</artifactId>
-                  <version>${rabbitmq.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>io.netty</groupId>
-                  <artifactId>netty-all</artifactId>
-                  <version>${netty.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>com.google.guava</groupId>
-                  <artifactId>guava</artifactId>
-                  <version>${guava.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>com.alibaba</groupId>
-                  <artifactId>fastjson</artifactId>
-                  <version>${fast.json.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.slf4j</groupId>
-                  <artifactId>slf4j-api</artifactId>
-                  <version>${slf4j.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.slf4j</groupId>
-                  <artifactId>slf4j-simple</artifactId>
-                  <version>${slf4j.version}</version>
-              </dependency>
-          </dependencies>
+        <dependencies>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${rabbitmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fast.json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
