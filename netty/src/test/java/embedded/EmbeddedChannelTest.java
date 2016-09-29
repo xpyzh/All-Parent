@@ -67,4 +67,15 @@ public class EmbeddedChannelTest {
         assertNull(channel.readInbound());
         buf.release();
     }
+
+    @Test
+    public void testAbsIntegerEncoder() throws Exception {
+        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder());
+        for (int i = 0; i < 10; i++) {
+            channel.writeAndFlush(i);
+            ByteBuf buf = channel.readOutbound();
+            System.out.println(buf.readInt());
+        }
+
+    }
 }
