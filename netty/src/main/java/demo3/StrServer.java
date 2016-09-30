@@ -45,10 +45,8 @@ public class StrServer {
             ChannelFuture f = bootstrapServer.bind(port).sync();
             f.channel().closeFuture().sync();
         } finally {
-            boos.shutdownGracefully();
-            work.shutdownGracefully();
-            boos.terminationFuture().sync();
-            work.terminationFuture().sync();
+            boos.shutdownGracefully().sync();
+            work.shutdownGracefully().sync();
         }
     }
 

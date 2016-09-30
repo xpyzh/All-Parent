@@ -41,10 +41,8 @@ public class TimeServer {
             ChannelFuture f = bootstrap.bind(port).sync();
             f.channel().closeFuture().sync();
         } finally {
-            workGroup.shutdownGracefully();
-            boosGroup.shutdownGracefully();
-            workGroup.terminationFuture().sync();
-            boosGroup.terminationFuture().sync();
+            workGroup.shutdownGracefully().sync();
+            boosGroup.shutdownGracefully().sync();
         }
     }
 
