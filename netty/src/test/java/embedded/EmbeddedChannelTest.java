@@ -76,6 +76,5 @@ public class EmbeddedChannelTest {
             ByteBuf buf = channel.readOutbound();
             System.out.println(buf.readInt());
         }
-
     }
 }
