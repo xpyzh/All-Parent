@@ -11,6 +11,7 @@
         <module>rabbitmq</module>
         <module>netty</module>
         <module>test</module>
+        <module>csdn</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
