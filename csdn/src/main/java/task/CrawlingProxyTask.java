@@ -7,7 +7,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.*;
 
 /**
@@ -20,6 +23,9 @@ public class CrawlingProxyTask implements Runnable {
 
     private volatile ConcurrentLinkedDeque<String> urlDeque = new ConcurrentLinkedDeque<>();
 
+    private ExecutorService executor;
+
+
     //启动线程数量
     private int threadNum;
 
@@ -31,6 +37,7 @@ public class CrawlingProxyTask implements Runnable {
 
     public CrawlingProxyTask(ConcurrentLinkedQueue<FreeProxy> freeProxyQueue, int threadNum, int crawlingPageNum) {
         this.freeProxyQueue = freeProxyQueue;
+        executor = Executors.newFixedThreadPool(threadNum);
         this.threadNum = threadNum;
         this.crawlingPageNum = crawlingPageNum;
         initUrl();
@@ -45,7 +52,7 @@ public class CrawlingProxyTask implements Runnable {
 
     @Override
     public void run() {
-        ExecutorService executor = Executors.newFixedThreadPool(threadNum);
+        System.out.println(MessageFormat.format("{0},开始爬取数据", new Date()));
         CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         for (int i = 0; i < threadNum; i++) {
             executor.submit(new Runnable() {
@@ -77,7 +84,7 @@ public class CrawlingProxyTask implements Runnable {
         }
         try {
             countDownLatch.await();
-            System.out.println(MessageFormat.format("共爬取代理数量:{0}", freeProxyQueue.size()));
+            System.out.println(MessageFormat.format("{0},共爬取代理数量:{1}", new Date(), freeProxyQueue.size()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
