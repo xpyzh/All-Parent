@@ -1,6 +1,8 @@
 package command;
 
 import model.FreeProxy;
+import parse.KuaiDaiLiParseImpl;
+import parse.ParseProxyService;
 import task.CrawlingProxyTask;
 import task.CsdnRequestTask;
 import task.EffectProxyWirterTask;
@@ -19,8 +21,10 @@ public class Run {
         BlockingDeque<FreeProxy> freeProxyQueue = initFreeProxyQueue();
         ConcurrentHashMap<String, String> effectProxy = new ConcurrentHashMap<>();
         ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
+        //解析不同网站的service
+        ParseProxyService parseProxyService = new KuaiDaiLiParseImpl(freeProxyQueue, effectProxy, 500);
         //定时获取最新代理信息
-        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(freeProxyQueue,effectProxy, 1, 500), 0, 10, TimeUnit.MINUTES);
+        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(parseProxyService, 1), 0, 10, TimeUnit.MINUTES);
         //定时落地有效代理信息
         scheduledExecutor.scheduleAtFixedRate(new EffectProxyWirterTask(effectProxy), 5, 1, TimeUnit.MINUTES);
         //开启刷新博客的消费者线程
@@ -56,7 +60,6 @@ public class Run {
         }
         return freeProxyQueue;
     }
-
 
 
 }

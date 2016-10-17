@@ -1,17 +1,15 @@
 package task;
 
 import com.google.common.base.Strings;
-import model.FreeProxy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import parse.ParseProxyService;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by youzhihao on 2016/10/14.
@@ -19,48 +17,23 @@ import java.util.concurrent.*;
  */
 public class CrawlingProxyTask implements Runnable {
 
-    private volatile BlockingDeque<FreeProxy> freeProxyQueue;
-
-    /**每个线程获取的代理先放在set里过滤*/
-    private Set<FreeProxy> freeProxySet = new HashSet<>();
-
-    private volatile ConcurrentLinkedDeque<String> urlDeque = new ConcurrentLinkedDeque<>();
-
     private ExecutorService executor;
 
-    //存储有效的代理,落地用
-    private volatile ConcurrentHashMap<String, String> effectProxy;
-
+    private ParseProxyService parseProxyService;
 
     //启动线程数量
     private int threadNum;
 
-    //抓取页面数量
-    private int crawlingPageNum;
-
-    //免费代理的网址
-    public static String url = "http://www.kuaidaili.com/free/inha/";
-
-    public CrawlingProxyTask(BlockingDeque<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy, int threadNum, int crawlingPageNum) {
-        this.freeProxyQueue = freeProxyQueue;
+    public CrawlingProxyTask(ParseProxyService parseProxyService, int threadNum) {
         this.executor = Executors.newFixedThreadPool(threadNum);
         this.threadNum = threadNum;
-        this.crawlingPageNum = crawlingPageNum;
-        this.effectProxy = effectProxy;
-        initUrl();
-    }
-
-    //初始化页面地址
-    private void initUrl() {
-        for (int i = 1; i <= crawlingPageNum; i++) {
-            urlDeque.add(url + i);
-        }
+        this.parseProxyService = parseProxyService;
     }
 
     @Override
     public void run() {
-        if (freeProxyQueue.size() > 10000) {
-            System.out.println(MessageFormat.format("目前代理数量:{},超过1w,暂停获取", freeProxyQueue.size()));
+        if (parseProxyService.getFreeProxyQueue().size() > 10000) {
+            System.out.println(MessageFormat.format("目前代理数量:{},超过1w,暂停获取", parseProxyService.getFreeProxyQueue().size()));
             return;
         }
         System.out.println(MessageFormat.format("{0},开始爬取数据", new Date()));
@@ -71,23 +44,14 @@ public class CrawlingProxyTask implements Runnable {
                 public void run() {
                     Document doc = null;
                     while (true) {
-                        String pageUrl = urlDeque.pollFirst();
+                        String pageUrl = parseProxyService.getUrlDeque().pollFirst();
                         try {
                             if (Strings.isNullOrEmpty(pageUrl)) {
                                 break;
                             }
                             doc = Jsoup.connect(pageUrl).get();
-                            Elements elements = doc.select("tbody > tr");
-                            for (Element element : elements) {
-                                String ip = element.select("[data-title=IP]").text();
-                                String port = element.select("[data-title=PORT]").text();
-                                FreeProxy freeProxy = new FreeProxy(ip, Integer.valueOf(port));
-                                if (!effectProxy.contains(ip)) {
-                                    freeProxySet.add(freeProxy);
-                                }
-                            }
+                            parseProxyService.parseEveryPage(doc);
                         } catch (Exception e) {
-                            urlDeque.addLast(pageUrl);
                             System.out.println(MessageFormat.format("爬取[{0}]失败", pageUrl));
                         }
                     }
@@ -97,19 +61,11 @@ public class CrawlingProxyTask implements Runnable {
         }
         try {
             countDownLatch.await();
-            freeProxyQueue.addAll(freeProxySet);
-            freeProxySet.clear();
-            initUrl();
-            System.out.println(MessageFormat.format("{0},目前代理队列长度:{1}", new Date(), freeProxyQueue.size()));
+            parseProxyService.addAllProxyInfo();
+            parseProxyService.initUrl();
+            System.out.println(MessageFormat.format("{0},目前代理队列长度:{1}", new Date(), parseProxyService.getFreeProxyQueue().size()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-    public static void main(String[] args)
-    {
-        ConcurrentHashMap<String, String> effectProxy=new ConcurrentHashMap<>();
-        effectProxy.put("127.0.0.1","89");
-        effectProxy.put("127.0.0.1","90");
-        System.out.println(effectProxy.size());
     }
 }
