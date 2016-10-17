@@ -28,6 +28,9 @@ public class CrawlingProxyTask implements Runnable {
 
     private ExecutorService executor;
 
+    //存储有效的代理,落地用
+    private volatile ConcurrentHashMap<String, String> effectProxy;
+
 
     //启动线程数量
     private int threadNum;
@@ -38,11 +41,12 @@ public class CrawlingProxyTask implements Runnable {
     //免费代理的网址
     public static String url = "http://www.kuaidaili.com/free/inha/";
 
-    public CrawlingProxyTask(BlockingDeque<FreeProxy> freeProxyQueue, int threadNum, int crawlingPageNum) {
+    public CrawlingProxyTask(BlockingDeque<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy, int threadNum, int crawlingPageNum) {
         this.freeProxyQueue = freeProxyQueue;
-        executor = Executors.newFixedThreadPool(threadNum);
+        this.executor = Executors.newFixedThreadPool(threadNum);
         this.threadNum = threadNum;
         this.crawlingPageNum = crawlingPageNum;
+        this.effectProxy = effectProxy;
         initUrl();
     }
 
@@ -78,7 +82,9 @@ public class CrawlingProxyTask implements Runnable {
                                 String ip = element.select("[data-title=IP]").text();
                                 String port = element.select("[data-title=PORT]").text();
                                 FreeProxy freeProxy = new FreeProxy(ip, Integer.valueOf(port));
-                                freeProxySet.add(freeProxy);
+                                if (!effectProxy.contains(ip)) {
+                                    freeProxySet.add(freeProxy);
+                                }
                             }
                         } catch (Exception e) {
                             urlDeque.addLast(pageUrl);
@@ -98,5 +104,12 @@ public class CrawlingProxyTask implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public static void main(String[] args)
+    {
+        ConcurrentHashMap<String, String> effectProxy=new ConcurrentHashMap<>();
+        effectProxy.put("127.0.0.1","89");
+        effectProxy.put("127.0.0.1","90");
+        System.out.println(effectProxy.size());
     }
 }

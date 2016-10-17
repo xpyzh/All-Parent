@@ -29,7 +29,7 @@ public class CsdnRequestTask implements Runnable {
 
     private List<String> blogUrls = new ArrayList<>();
 
-    public CsdnRequestTask(BlockingDeque<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy, int threadNum) {
+    public CsdnRequestTask(BlockingDeque<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy) {
         this.freeProxyQueue = freeProxyQueue;
         this.effectProxy = effectProxy;
         initBlogUrls();
