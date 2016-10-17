@@ -16,23 +16,29 @@ import java.util.concurrent.*;
 public class Run {
 
     public static void main(String[] args) {
-        ConcurrentLinkedQueue<FreeProxy> freeProxyQueue = initFreeProxyQueue();
+        BlockingDeque<FreeProxy> freeProxyQueue = initFreeProxyQueue();
         ConcurrentHashMap<String, String> effectProxy = new ConcurrentHashMap<>();
         ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
-        //初始化获取一次代理信息
-        new CrawlingProxyTask(freeProxyQueue, 1, 500).run();
         //定时获取最新代理信息
-        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(freeProxyQueue, 1, 500), 5, 5, TimeUnit.MINUTES);
-        //刷新博客
-        scheduledExecutor.scheduleAtFixedRate(new CsdnRequestTask(freeProxyQueue, effectProxy, 20), 0, 10, TimeUnit.MINUTES);
-        //有效代理信息落地
-        scheduledExecutor.scheduleAtFixedRate(new EffectProxyWirterTask(effectProxy), 5, 5, TimeUnit.MINUTES);
+        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(freeProxyQueue, 1, 5), 0, 10, TimeUnit.SECONDS);
+        //定时落地有效代理信息
+        scheduledExecutor.scheduleAtFixedRate(new EffectProxyWirterTask(effectProxy), 5, 1, TimeUnit.MINUTES);
+        //开启刷新博客的消费者线程
+        ThreadPoolExecutor consumerExecutors = (ThreadPoolExecutor) Executors.newFixedThreadPool(50, new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(new CsdnRequestTask(freeProxyQueue, effectProxy, 20));
+                return thread;
+            }
+        });
+        consumerExecutors.prestartAllCoreThreads();
+
 
     }
 
     //读取筛选过的代理
-    private static ConcurrentLinkedQueue<FreeProxy> initFreeProxyQueue() {
-        ConcurrentLinkedQueue<FreeProxy> freeProxyQueue = new ConcurrentLinkedQueue();
+    private static BlockingDeque<FreeProxy> initFreeProxyQueue() {
+        BlockingDeque<FreeProxy> freeProxyQueue = new LinkedBlockingDeque<>();
         String path = CsdnRequestTask.class.getClassLoader().getResource("proxy.txt").getPath();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
@@ -40,7 +46,7 @@ public class Run {
             while ((line = bufferedReader.readLine()) != null) {
                 try {
                     String[] strs = line.split(":");
-                    freeProxyQueue.add(new FreeProxy(strs[0], Integer.valueOf(strs[1])));
+                    freeProxyQueue.putFirst(new FreeProxy(strs[0], Integer.valueOf(strs[1])));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -50,5 +56,7 @@ public class Run {
         }
         return freeProxyQueue;
     }
+
+
 
 }

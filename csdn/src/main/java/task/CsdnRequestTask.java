@@ -23,79 +23,57 @@ import java.util.concurrent.*;
  */
 public class CsdnRequestTask implements Runnable {
 
-    private volatile ConcurrentLinkedQueue<FreeProxy> freeProxyQueue;
-
+    private volatile BlockingDeque<FreeProxy> freeProxyQueue;
     //存储有效的代理,落地用
     private volatile ConcurrentHashMap<String, String> effectProxy;
 
-    private int threadNum;
-
-    private ExecutorService executor;
-
     private List<String> blogUrls = new ArrayList<>();
 
-    public CsdnRequestTask(ConcurrentLinkedQueue<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy, int threadNum) {
+    public CsdnRequestTask(BlockingDeque<FreeProxy> freeProxyQueue, ConcurrentHashMap<String, String> effectProxy, int threadNum) {
         this.freeProxyQueue = freeProxyQueue;
         this.effectProxy = effectProxy;
-        this.threadNum = threadNum;
-        executor = Executors.newFixedThreadPool(threadNum);
         initBlogUrls();
     }
 
 
     @Override
     public void run() {
-        //两个队列,一出一进
-        System.out.println(MessageFormat.format("{0},开始刷新博客", new Date()));
-        ConcurrentLinkedQueue<FreeProxy> freeProxyQueueSwap = freeProxyQueue;
-        freeProxyQueue = new ConcurrentLinkedQueue<>();
-        CountDownLatch latch = new CountDownLatch(threadNum);
-        for (int i = 0; i < threadNum; i++) {
-            executor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    CloseableHttpClient httpclient = HttpClients.createDefault();
-                    while (true) {
-                        FreeProxy freeProxy = freeProxyQueueSwap.poll();
-                        if (freeProxy == null) {
-                            break;
-                        }
-                        HttpGet httpGet = createHttpGet(freeProxy);
-                        CloseableHttpResponse response = null;
-                        for (String blogUrl : blogUrls) {
-                            long startTime = new Date().getTime();
-                            try {
-                                httpGet.setURI(new URI(blogUrl));
-                                response = httpclient.execute(httpGet);
-                                int statusCode = response.getStatusLine().getStatusCode();
-                                if (statusCode == 200) {
-                                    freeProxyQueue.offer(freeProxy);
-                                    effectProxy.put(freeProxy.getIp(), String.valueOf(freeProxy.getPort()));
-                                }
-                                long needTime = (new Date().getTime() - startTime) / 1000;
-                                System.out.println(MessageFormat.format("proxy:{0},code:{1},耗时{2}秒", freeProxy.getIp(), statusCode, needTime));
-                            } catch (Exception e) {
-                                break;
-                            } finally {
-                                try {
-                                    if (response != null) {
-                                        response.close();
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        while (true) {
+            FreeProxy freeProxy = null;
+            try {
+                freeProxy = freeProxyQueue.takeLast();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            HttpGet httpGet = createHttpGet(freeProxy);
+            CloseableHttpResponse response = null;
+            for (String blogUrl : blogUrls) {
+                int statusCode = -1;
+                long startTime = new Date().getTime();
+                try {
+                    httpGet.setURI(new URI(blogUrl));
+                    response = httpclient.execute(httpGet);
+                    statusCode = response.getStatusLine().getStatusCode();
+                    if (statusCode == 200) {
+                        effectProxy.put(freeProxy.getIp(), String.valueOf(freeProxy.getPort()));
+                        long needTime = (new Date().getTime() - startTime) / 1000;
+                        System.out.println(MessageFormat.format("Thread:{0},proxy:{1},url:{2},code:{3},耗时{4}秒", Thread.currentThread().getName(), freeProxy.getIp(), blogUrl, statusCode, needTime));
                     }
-                    latch.countDown();
+                } catch (Exception e) {
+                    continue;
+                } finally {
+                    long needTime = (new Date().getTime() - startTime) / 1000;
+
+                    try {
+                        if (response != null) {
+                            response.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
-        }
-        try {
-            latch.await();
-            System.out.println(MessageFormat.format("{0},结束刷新博客,有效代理数量{1}", new Date(), effectProxy.size()));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            }
         }
     }
 

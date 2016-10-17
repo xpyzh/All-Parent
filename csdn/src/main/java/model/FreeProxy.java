@@ -30,4 +30,23 @@ public class FreeProxy {
     public void setPort(int port) {
         this.port = port;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FreeProxy freeProxy = (FreeProxy) o;
+
+        if (port != freeProxy.port) return false;
+        return ip.equals(freeProxy.ip);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ip.hashCode();
+        result = 31 * result + port;
+        return result;
+    }
 }

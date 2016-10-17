@@ -7,10 +7,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -19,7 +19,10 @@ import java.util.concurrent.*;
  */
 public class CrawlingProxyTask implements Runnable {
 
-    private volatile ConcurrentLinkedQueue<FreeProxy> freeProxyQueue;
+    private volatile BlockingDeque<FreeProxy> freeProxyQueue;
+
+    /**每个线程获取的代理先放在set里过滤*/
+    private Set<FreeProxy> freeProxySet = new HashSet<>();
 
     private volatile ConcurrentLinkedDeque<String> urlDeque = new ConcurrentLinkedDeque<>();
 
@@ -35,7 +38,7 @@ public class CrawlingProxyTask implements Runnable {
     //免费代理的网址
     public static String url = "http://www.kuaidaili.com/free/inha/";
 
-    public CrawlingProxyTask(ConcurrentLinkedQueue<FreeProxy> freeProxyQueue, int threadNum, int crawlingPageNum) {
+    public CrawlingProxyTask(BlockingDeque<FreeProxy> freeProxyQueue, int threadNum, int crawlingPageNum) {
         this.freeProxyQueue = freeProxyQueue;
         executor = Executors.newFixedThreadPool(threadNum);
         this.threadNum = threadNum;
@@ -52,6 +55,10 @@ public class CrawlingProxyTask implements Runnable {
 
     @Override
     public void run() {
+        if (freeProxyQueue.size() > 10000) {
+            System.out.println(MessageFormat.format("目前代理数量:{},超过1w,暂停获取", freeProxyQueue.size()));
+            return;
+        }
         System.out.println(MessageFormat.format("{0},开始爬取数据", new Date()));
         CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         for (int i = 0; i < threadNum; i++) {
@@ -71,7 +78,7 @@ public class CrawlingProxyTask implements Runnable {
                                 String ip = element.select("[data-title=IP]").text();
                                 String port = element.select("[data-title=PORT]").text();
                                 FreeProxy freeProxy = new FreeProxy(ip, Integer.valueOf(port));
-                                freeProxyQueue.offer(freeProxy);
+                                freeProxySet.add(freeProxy);
                             }
                         } catch (Exception e) {
                             urlDeque.addLast(pageUrl);
@@ -84,7 +91,10 @@ public class CrawlingProxyTask implements Runnable {
         }
         try {
             countDownLatch.await();
-            System.out.println(MessageFormat.format("{0},共爬取代理数量:{1}", new Date(), freeProxyQueue.size()));
+            freeProxyQueue.addAll(freeProxySet);
+            freeProxySet.clear();
+            initUrl();
+            System.out.println(MessageFormat.format("{0},目前代理队列长度:{1}", new Date(), freeProxyQueue.size()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
