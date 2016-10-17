@@ -3,7 +3,7 @@ package task;
 import com.google.common.base.Strings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import parse.ParseProxyService;
+import parse.service.ParseProxyService;
 
 import java.text.MessageFormat;
 import java.util.Date;
@@ -42,19 +42,7 @@ public class CrawlingProxyTask implements Runnable {
             executor.submit(new Runnable() {
                 @Override
                 public void run() {
-                    Document doc = null;
-                    while (true) {
-                        String pageUrl = parseProxyService.getUrlDeque().pollFirst();
-                        try {
-                            if (Strings.isNullOrEmpty(pageUrl)) {
-                                break;
-                            }
-                            doc = Jsoup.connect(pageUrl).get();
-                            parseProxyService.parseEveryPage(doc);
-                        } catch (Exception e) {
-                            System.out.println(MessageFormat.format("爬取[{0}]失败", pageUrl));
-                        }
-                    }
+                    parseProxyService.parse();
                     countDownLatch.countDown();
                 }
             });
@@ -62,7 +50,6 @@ public class CrawlingProxyTask implements Runnable {
         try {
             countDownLatch.await();
             parseProxyService.addAllProxyInfo();
-            parseProxyService.initUrl();
             System.out.println(MessageFormat.format("{0},目前代理队列长度:{1}", new Date(), parseProxyService.getFreeProxyQueue().size()));
         } catch (InterruptedException e) {
             e.printStackTrace();
