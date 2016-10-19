@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import parse.service.ParseProxyService;
 
+import java.util.Set;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,14 +23,14 @@ public class KuaiDaiLiParseImpl extends ParseProxyService {
     }
 
     @Override
-    public void parseEveryPage(Document document) {
+    public void parseEveryPage(Document document,Set<FreeProxy> freeProxySet) {
         Elements elements = document.select("tbody > tr");
         for (Element element : elements) {
             String ip = element.select("[data-title=IP]").text();
             String port = element.select("[data-title=PORT]").text();
             FreeProxy freeProxy = new FreeProxy(ip, Integer.valueOf(port));
             if (!getEffectProxy().contains(ip)) {
-                getFreeProxySet().add(freeProxy);
+                freeProxySet.add(freeProxy);
             }
         }
     }

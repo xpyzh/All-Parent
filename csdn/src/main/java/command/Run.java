@@ -25,13 +25,11 @@ public class Run {
         ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
         //解析不同网站的service
         //www.kuaidaili.com
-        //ParseProxyService parseProxyService = new KuaiDaiLiParseImpl(freeProxyQueue, effectProxy, 10);
+         //ParseProxyService parseProxyService = new KuaiDaiLiParseImpl(freeProxyQueue, effectProxy, 200);
         //www.xicidaili.com
         ParseProxyService parseProxyService = new XiCiDaiLiParseImpl(freeProxyQueue, effectProxy, 100);
-        //先解析一次，ip被禁则使用文件中存储的代理再试
-        new CrawlingProxyTask(parseProxyService, 1).run();
         //定时获取最新代理信息
-        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(parseProxyService, 1), 10, 10, TimeUnit.MINUTES);
+        scheduledExecutor.scheduleAtFixedRate(new CrawlingProxyTask(parseProxyService, 1), 0, 10, TimeUnit.MINUTES);
         //定时落地有效代理信息
         scheduledExecutor.scheduleAtFixedRate(new EffectProxyWirterTask(effectProxy), 5, 1, TimeUnit.MINUTES);
         //检查剩余代理数量
@@ -42,7 +40,7 @@ public class Run {
             }
         },0,30,TimeUnit.SECONDS);
         //开启刷新博客的消费者线程
-        ThreadPoolExecutor consumerExecutors = (ThreadPoolExecutor) Executors.newFixedThreadPool(500, new ThreadFactory() {
+        ThreadPoolExecutor consumerExecutors = (ThreadPoolExecutor) Executors.newFixedThreadPool(100, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread thread = new Thread(new CsdnRequestTask(freeProxyQueue, effectProxy));

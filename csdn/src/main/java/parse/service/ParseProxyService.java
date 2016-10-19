@@ -14,9 +14,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.net.URI;
 import java.text.MessageFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -32,10 +30,6 @@ public abstract class ParseProxyService {
 
     //去重使用,这里放的是成功刷新博客的代理信息
     private volatile ConcurrentHashMap<String, String> effectProxy;
-
-
-    //去重使用,这里放的是新获取的代理信息
-    private Set<FreeProxy> freeProxySet = new HashSet<>();
 
     //页面url
     private volatile ConcurrentLinkedDeque<String> urlDeque = new ConcurrentLinkedDeque<>();
@@ -58,36 +52,48 @@ public abstract class ParseProxyService {
     }
 
     //解析单个页面,添加代理信息到freeProxySet
-    public abstract void parseEveryPage(Document document);
+    public abstract void parseEveryPage(Document document, Set<FreeProxy> freeProxySet);
 
     public void parse() {
-        parse1(false);
+        try {
+            Thread.currentThread().sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Set<FreeProxy> freeProxySet = new HashSet<>();
+        //先不用代理解析一遍
+        parse1(null, freeProxySet);
+        if (freeProxySet.size()<=0) {
+            initUrl();
+            for (Iterator<Map.Entry<String, String>> it = effectProxy.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, String> entry = it.next();
+                FreeProxy freeProxy = new FreeProxy(entry.getKey(), Integer.valueOf(entry.getValue()));
+                System.out.println(MessageFormat.format("尝试代理:{0}",freeProxy.getIp()));
+                boolean flag = parse1(freeProxy, freeProxySet);
+                if (flag) {
+                    break;
+                }
+            }
+        }
+        freeProxyQueue.addAll(freeProxySet);
     }
     //解析数据主入口
-    public void parse1(boolean isTryAgain) {
-        FreeProxy freeProxy = null;
-        if (isTryAgain) {
-            freeProxy = freeProxyQueue.pollLast();
-            System.out.println(MessageFormat.format("切换代理:{0}",freeProxy.getIp()));
-        }
+    public boolean parse1(FreeProxy freeProxy, Set<FreeProxy> freeProxySet) {
         while (true) {
             String pageUrl = urlDeque.pollFirst();
             CloseableHttpResponse response = null;
             try {
                 if (Strings.isNullOrEmpty(pageUrl)) {
-                    break;
+                    return true;
                 }
                 CloseableHttpClient httpclient = HttpClients.createDefault();
                 HttpGet httpGet = createHttpGet(freeProxy);
                 httpGet.setURI(new URI(pageUrl));
                 response = httpclient.execute(httpGet);
                 Document doc = Jsoup.parse(response.getEntity().getContent(), "utf-8", pageUrl);
-                parseEveryPage(doc);
+                parseEveryPage(doc, freeProxySet);
             } catch (Exception e) {
                 System.out.println(MessageFormat.format("爬取[{0}]失败,exception={1}", pageUrl, e.toString()));
-                if (isTryAgain) {
-                    break;
-                }
             } finally {
                 try {
                     if (response != null) {
@@ -96,18 +102,18 @@ public abstract class ParseProxyService {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //如果是切换代理解析，则解析出错一次就换代理
+                if (freeProxy != null) {
+                    return false;
+                }
             }
-        }
-        if (getFreeProxySet().size() <= 0) {
-            initUrl();
-            parse1(true);
         }
     }
 
     //将freeProxySet中的信息放到freeProxyQueue中
     public void addAllProxyInfo() {
-        freeProxyQueue.addAll(freeProxySet);
-        freeProxySet.clear();
+
+
         initUrl();
     }
     private HttpGet createHttpGet(FreeProxy freeProxy) {
@@ -158,14 +164,6 @@ public abstract class ParseProxyService {
         this.effectProxy = effectProxy;
     }
 
-    public Set<FreeProxy> getFreeProxySet() {
-        return freeProxySet;
-    }
-
-    public void setFreeProxySet(Set<FreeProxy> freeProxySet) {
-        this.freeProxySet = freeProxySet;
-    }
-
     public ConcurrentLinkedDeque<String> getUrlDeque() {
         return urlDeque;
     }
@@ -181,4 +179,5 @@ public abstract class ParseProxyService {
     public void setCrawlingPageNum(int crawlingPageNum) {
         this.crawlingPageNum = crawlingPageNum;
     }
+
 }
