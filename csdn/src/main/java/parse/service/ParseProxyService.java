@@ -55,11 +55,6 @@ public abstract class ParseProxyService {
     public abstract void parseEveryPage(Document document, Set<FreeProxy> freeProxySet);
 
     public void parse() {
-        try {
-            Thread.currentThread().sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         Set<FreeProxy> freeProxySet = new HashSet<>();
         //先不用代理解析一遍
         parse1(null, freeProxySet);
