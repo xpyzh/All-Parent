@@ -12,6 +12,7 @@
         <module>netty</module>
         <module>test</module>
         <module>csdn</module>
+        <module>designPatterns</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->

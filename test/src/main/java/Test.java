@@ -1,3 +1,8 @@
+import model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by youzhihao on 2016/9/27.
  */
@@ -6,7 +11,11 @@ public class Test {
     public static void main(String[] args) throws Exception {
         //demo1();
         //demo2();
-
+        //demo3();
+        //demo4();
+        //demo5();
+        //demo6();
+        demo7();
     }
 
     public static void demo1() throws Exception {
@@ -36,6 +45,54 @@ public class Test {
 
     public static void demo3() {
         int nums[] = {1, 2, 3, 4, 5};
+    }
+
+    /**
+     * System.arraycopy（）在复制对象的时候，只会拷贝引用，没有深层复制对象，
+     * arrayList在扩容的时候也是调的这个方法，所以arrayList在扩容的时候性能不会很差
+     **/
+    public static void demo4() {
+        User[] users = new User[1];
+        users[0] = new User();
+        User[] copy = new User[2];
+        System.arraycopy(users, 0, copy, 0, 1);
+        users[0].setId(100L);
+        System.out.println(users[0]);
+        System.out.println(copy[0]);
+        System.out.println(users[1]);
+        System.out.println(copy[1]);
+    }
+
+    public static void demo5() {
+        List<String> a = new ArrayList<String>();
+        a.add("1");
+        a.add("2");
+        for (String temp : a) {
+            if ("2".equals(temp)) {
+                a.remove(temp);
+            }
+        }
+        System.out.println(a);
+    }
+
+    /**使用foreach接口debug，研究Iterable*/
+    public static void demo6() {
+        List<String> a = new ArrayList<String>();
+        a.add("1");
+        a.add("2");
+        for (String temp : a) {
+            System.out.println(temp);
+        }
+    }
+
+    /**integer对象，-127~127会使用integer.cache中的缓存进行对象引用，超出这个返回，会生成新对象，巨坑*/
+    public static void demo7() {
+        Integer num1 = 10;
+        Integer num2 = 10;
+        System.out.println(num1 == num2);
+        num1 = 10000;
+        num2 = 10000;
+        System.out.println(num1 == num2);
     }
 
 }
