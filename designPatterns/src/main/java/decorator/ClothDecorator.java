@@ -9,9 +9,6 @@ public class ClothDecorator implements Cloth {
     private Cloth cloth;
 
     //这里的构造函数初始化cloth，可以改成set方法
-    public ClothDecorator(Cloth cloth) {
-        this.cloth = cloth;
-    }
 
     @Override
     public void wear() {
@@ -19,5 +16,8 @@ public class ClothDecorator implements Cloth {
             cloth.wear();
         }
 
+    }
+    public void setCloth(Cloth cloth) {
+        this.cloth = cloth;
     }
 }

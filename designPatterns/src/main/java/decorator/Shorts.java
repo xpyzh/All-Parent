@@ -6,10 +6,6 @@ package decorator;
  */
 public class Shorts extends ClothDecorator {
 
-    public Shorts(Cloth cloth) {
-        super(cloth);
-    }
-
     @Override
     public void wear() {
         super.wear();

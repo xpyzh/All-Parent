@@ -6,13 +6,10 @@ package decorator;
  */
 public class BusinessSuit extends ClothDecorator {
 
-    public BusinessSuit(Cloth cloth) {
-        super(cloth);
-    }
 
     @Override
     public void wear() {
         super.wear();
-        System.out.println("穿西装 ");
+        System.out.println("西装 ");
     }
 }
