@@ -12,9 +12,6 @@ public class Run {
      * 1.正常收费(CashNormal)
      * 2.普通打折(CashRebate)
      * 3.满减(CashReturn)
-     *
-     *
-     *
      * */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
