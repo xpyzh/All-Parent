@@ -15,7 +15,10 @@ public class Test {
         //demo4();
         //demo5();
         //demo6();
-        demo7();
+        //demo7();
+        System.out.println(demo8(true));
+        System.out.println(demo8(false));
+
     }
 
     public static void demo1() throws Exception {
@@ -93,6 +96,20 @@ public class Test {
         num1 = 10000;
         num2 = 10000;
         System.out.println(num1 == num2);
+    }
+
+    /**try,catch,finally块中，如果finally中有返回，调用者一定获取finally中的结果*/
+    public static int demo8(boolean hasExcpetion) {
+        try {
+            if (hasExcpetion) {
+                throw new RuntimeException("aaaaa");
+            }
+            return 1;
+        } catch (Exception e) {
+            return 2;
+        } finally {
+            return 3;
+        }
     }
 
 }
