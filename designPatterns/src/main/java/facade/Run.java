@@ -11,10 +11,8 @@ package facade;
 public class Run {
 
     public static void main(String[] args) {
-        Fund fund=new Fund();
+        Fund fund = new Fund();
         fund.buyFund();
         fund.sellFund();
-
     }
-
 }
