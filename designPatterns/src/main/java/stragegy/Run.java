@@ -27,7 +27,6 @@ public class Run {
             double realPayMoney = cashContext.pay(totalMoney);
             System.out.println("实际需要付款的金额为:" + realPayMoney);
         }
-
     }
 
 }
