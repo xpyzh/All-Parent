@@ -1,5 +1,16 @@
 import model.User;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +27,11 @@ public class Test {
         //demo5();
         //demo6();
         //demo7();
-        System.out.println(demo8(true));
-        System.out.println(demo8(false));
+        //System.out.println(demo8(true));
+        //System.out.println(demo8(false));
+//        Calendar calendar = Calendar.getInstance();
+        //demo9();
+        demo10();
 
     }
 
@@ -109,6 +123,33 @@ public class Test {
             return 2;
         } finally {
             return 3;
+        }
+    }
+
+    public static void demo9() {
+        String url = "http://127.0.0.1:9999/jobs/jobLogHeartbeat";
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.addHeader("Host", "accounts.douban.com");
+        httpGet.addHeader("Origin", "https://www.douban.com");
+        httpGet.setHeader(new BasicHeader("Cookie", "abc"));
+        try {
+            CloseableHttpResponse response = httpclient.execute(httpGet);
+            Document doc = Jsoup.parse(response.getEntity().getContent(), "utf-8", url);
+            System.out.println(doc.getAllElements());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void demo10() {
+
+        String str = new String(Base64.decodeBase64("YzljODZhOGYxNmY1ZTk2NzViOGIyZmU4MDEzNTRmNWY=".getBytes())) + ".png";
+        System.out.println(str);
+        try {
+            System.out.println(URLDecoder.decode("UG9wb73YzbwyMDE3NjIyMTcyNTgucG5n", "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 

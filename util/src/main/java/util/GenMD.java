@@ -1,24 +1,19 @@
 package util;
 
-/**
- * Created by hzsunguanjun on 2017/3/8.
- */
+
 public class GenMD {
     public static void main(String[] args){
-        String str = "\n" +
-                "    //供应商名称\n" +
-                "    private String supplierName;\n" +
+        String str = "    //商品名称\n" +
+                "    private String itemName;\n" +
                 "\n" +
-                "    //当前主合同编号\n" +
-                "    private String contractNo;\n" +
+                "    //商品数量\n" +
+                "    private Integer itemCount;\n" +
                 "\n" +
-                "    //当前合同生效标记\n" +
-                "    private Integer activeFlag;\n" +
+                "    //SKUID\n" +
+                "    private Long skuId;\n" +
                 "\n" +
-                "    //冲突主合同编号\n" +
-                "    private List<String> conflictNoList;\n";
-
-
+                "    //商品规格描述\n" +
+                "    private String itemSpec;";
         System.out.println("# 库内产品巡检信息\n" +
             "|| 参数 || 类型 || 说明 || 版本 ||");
         String[] strArray = str.split("\n");

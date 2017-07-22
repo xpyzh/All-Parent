@@ -3,6 +3,8 @@ package embedded;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
+import io.netty.handler.codec.TooLongFrameException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -70,11 +72,36 @@ public class EmbeddedChannelTest {
 
     @Test
     public void testAbsIntegerEncoder() throws Exception {
-        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder());
-        for (int i = 0; i < 10; i++) {
-            channel.writeAndFlush(i);
-            ByteBuf buf = channel.readOutbound();
-            System.out.println(buf.readInt());
+        ByteBuf byteBuf = Unpooled.buffer();
+        for (int i = 0; i <= 10; i++) {
+            byteBuf.writeInt(i);
         }
+        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder());
+        channel.writeOutbound(byteBuf);
+        channel.finish();
+        for (int i = 0; i <= 10; i++) {
+            Integer result = channel.readOutbound();
+            System.out.println(result);
+        }
+    }
+
+    @Test
+    public void testFrameChunkDecoder() {
+        ByteBuf buf = Unpooled.buffer();
+        for (int i = 0; i < 9; i++) {
+            buf.writeByte(i);
+        }
+        ByteBuf input = buf.duplicate();
+        EmbeddedChannel channel = new EmbeddedChannel(new FrameChunkDecoder());
+        channel.writeInbound(input.readBytes(2));
+        try {
+            channel.writeInbound(input.readBytes(4));
+        } catch (TooLongFrameException e) {
+            System.out.println("丢弃字符");
+        }
+        channel.writeInbound(input.readBytes(3));
+        channel.finish();
+        Assert.assertEquals(buf.readBytes(2), (ByteBuf) channel.readInbound());
+        Assert.assertEquals(buf.skipBytes(4).readBytes(3), (ByteBuf) channel.readInbound());
     }
 }

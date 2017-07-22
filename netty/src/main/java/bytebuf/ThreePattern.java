@@ -5,7 +5,6 @@ import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
 
-import java.text.Format;
 import java.text.MessageFormat;
 
 /**
@@ -35,7 +34,7 @@ public class ThreePattern {
     }
     /**数据直接存储在内存中，好处在I/O传输过程中，不需要将堆内数据复制到内存中，也就是少一步复制操作
      * 缺点：1.分配和释放比在堆内存中性能差
-     *       2.legacy code需要在堆上重新复制一次，不懂
+     *      2.操作具体数组的时候，需要拷贝到内存中一次，才能操作(getBytes)
      * */
 
     public static void directBuffers() {
