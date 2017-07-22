@@ -28,6 +28,7 @@
         <http.client.version>4.4.1</http.client.version>
         <jsoup.version>1.9.2</jsoup.version>
         <commons.lang.version>2.4</commons.lang.version>
+        <jedis.version>2.9.0</jedis.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -82,6 +83,11 @@
                     <artifactId>commons-lang</artifactId>
                     <version>${commons.lang.version}</version>
                 </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
