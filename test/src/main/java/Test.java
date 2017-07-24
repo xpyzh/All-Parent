@@ -31,7 +31,8 @@ public class Test {
         //System.out.println(demo8(false));
 //        Calendar calendar = Calendar.getInstance();
         //demo9();
-        demo10();
+       // demo10();
+        demo11();
 
     }
 
@@ -151,6 +152,16 @@ public class Test {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void demo11() {
+        int i = 1;
+        int j = 2;
+        int x = i = j;
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(x);
+
     }
 
 }

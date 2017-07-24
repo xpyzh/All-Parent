@@ -35,7 +35,7 @@ public class MessageDecoder extends ReplayingDecoder<Void> {
         }
         //读取本次消息的内容
         if (isReadLength) {
-            byte[] bytes = new byte[length];
+            byte[] bytes = new byte[1000];
             in.readBytes(bytes);
             //转成实体对象
             message = initContent(bytes);
@@ -46,6 +46,7 @@ public class MessageDecoder extends ReplayingDecoder<Void> {
         }
         out.add(message);
     }
+
     private Message initContent(byte[] bytes) {
         Message message = new Message();
         message.setContent(new String(bytes));
