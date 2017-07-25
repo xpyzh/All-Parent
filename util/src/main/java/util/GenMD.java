@@ -3,17 +3,8 @@ package util;
 
 public class GenMD {
     public static void main(String[] args){
-        String str = "    //商品名称\n" +
-                "    private String itemName;\n" +
-                "\n" +
-                "    //商品数量\n" +
-                "    private Integer itemCount;\n" +
-                "\n" +
-                "    //SKUID\n" +
-                "    private Long skuId;\n" +
-                "\n" +
-                "    //商品规格描述\n" +
-                "    private String itemSpec;";
+        String str = "    private String purchaseOrder; // 采购单号\n" +
+                "    private List<Long> skus; // sku列表";
         System.out.println("# 库内产品巡检信息\n" +
             "|| 参数 || 类型 || 说明 || 版本 ||");
         String[] strArray = str.split("\n");
