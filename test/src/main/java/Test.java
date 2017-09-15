@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSONObject;
 import model.User;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,8 +12,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by youzhihao on 2016/9/27.
@@ -29,11 +29,15 @@ public class Test {
         //demo7();
         //System.out.println(demo8(true));
         //System.out.println(demo8(false));
-//        Calendar calendar = Calendar.getInstance();
+        //Calendar calendar = Calendar.getInstance();
         //demo9();
-       // demo10();
-        demo11();
-
+        //demo10();
+        //demo11();
+        //demo12();
+        //demo13();
+        demo14();
+        String str="http://weixin.qq.com/g/AbntRq-poa_Zjyot";
+        System.out.println(str);
     }
 
     public static void demo1() throws Exception {
@@ -161,7 +165,29 @@ public class Test {
         System.out.println(i);
         System.out.println(j);
         System.out.println(x);
-
     }
 
+    public static void demo12() {
+        System.out.println(String.class.getCanonicalName());
+        System.out.println(2111111112 & 0xFFFFFF);
+        Random r = new Random();
+        System.out.println(Math.abs(r.nextInt() % 999) % 999);
+    }
+
+    public static void demo13() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        Collections.shuffle(list);//将数组随机排列一把
+        System.out.println(JSONObject.toJSONString(list));
+    }
+    public static void demo14(){
+        HashMap<String/* Namespace */, HashMap<String/* Key */, String/* Value */>> map=new HashMap<>();
+
+
+
+    }
 }

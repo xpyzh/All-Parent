@@ -8,23 +8,32 @@ import org.apache.commons.lang.StringUtils;
 public class GenSetter {
     public static void main(String[] args){
         String varName = "settleVo";
-        String str = "    //供应商外部仓订单表id\n" +
-                "    private Long externalOrderId;\n" +
+        String str = "  //用户id\n" +
+                "    private Long id;\n" +
                 "\n" +
-                "    //订单号（不唯一）\n" +
-                "    private String orderNo;\n" +
+                "    //最后登录时间\n" +
+                "    private Long lastLoginTime;\n" +
                 "\n" +
-                "    //商品名称\n" +
-                "    private String itemName;\n" +
+                "    //首次登陆时间\n" +
+                "    private Long firstLoginTime;\n" +
                 "\n" +
-                "    //商品规格描述\n" +
-                "    private String itemSpec;\n" +
+                "    //是否锁定, (0: 解锁, 1: 锁定)\n" +
+                "    private Boolean locked;\n" +
                 "\n" +
-                "    //商品数量\n" +
-                "    private Integer itemCount;\n" +
+                "    //用户uid, 也即用户邮箱名\n" +
+                "    private String uid;\n" +
                 "\n" +
-                "    //SKUID\n" +
-                "    private Long skuId;";
+                "    //urs主账号\n" +
+                "    private String mainAccount;\n" +
+                "\n" +
+                "    //用户名\n" +
+                "    private String realName;\n" +
+                "\n" +
+                "    //所属快递公司\n" +
+                "    private String company;\n" +
+                "\n" +
+                "    //创建时间\n" +
+                "    private Long createTime;\n";
 
         String[] strArray = str.split("\n");
         String note = "";

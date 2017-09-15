@@ -25,7 +25,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (channelFuture == future) {
                     System.out.println("关闭channel");
-                    ctx.close();
+                    future.channel().close();
                 }
             }
         });

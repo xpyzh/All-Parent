@@ -20,17 +20,17 @@ public class HttpServer {
     int port = 8080;
 
     public void start() throws Exception {
-        EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
+        EventLoopGroup boosLoopGroup = new NioEventLoopGroup();
+        EventLoopGroup workLoopGroup=new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.group(eventLoopGroup);
+            b.group(boosLoopGroup,workLoopGroup);
             b.localAddress(port);
             b.channel(NioServerSocketChannel.class);
             b.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
                     ChannelPipeline pipeline = ch.pipeline();
-
                     pipeline.addLast(new HttpServerCodec());
                     pipeline.addLast(new HttpObjectAggregator(512 * 1024));
                     //如果不用zero-copy的FileRegion，则需要加ChunkedWriteHandler，来减少内存的消耗,避免OutOfMemoryError
@@ -42,7 +42,8 @@ public class HttpServer {
             future.channel().closeFuture().sync();
 
         } finally {
-            eventLoopGroup.shutdownGracefully().sync();
+            boosLoopGroup.shutdownGracefully().sync();
+            workLoopGroup.shutdownGracefully().sync();
         }
     }
 

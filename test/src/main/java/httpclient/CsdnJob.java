@@ -26,7 +26,7 @@ public class CsdnJob {
     public static void main(String[] args) {
 
         ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        final CloseableHttpClient httpclient = HttpClients.createDefault();
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
