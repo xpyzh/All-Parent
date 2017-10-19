@@ -14,6 +14,8 @@
         <module>csdn</module>
         <module>designPatterns</module>
         <module>util</module>
+        <module>barcode</module>
+        <module>zk</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -30,6 +32,7 @@
         <commons.lang.version>2.4</commons.lang.version>
         <jedis.version>2.9.0</jedis.version>
         <zxing.version>3.3.0</zxing.version>
+        <curator.version>4.0.0</curator.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -94,6 +97,11 @@
                 <artifactId>core</artifactId>
                 <version>${zxing.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -111,8 +119,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
