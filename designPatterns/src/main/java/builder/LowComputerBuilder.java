@@ -7,15 +7,15 @@ public class LowComputerBuilder extends ComputerBuilder {
 
 
     @Override
-    public void choiceCpu() {
+    public String choiceCpu() {
         System.out.println("选择奔腾处理器");
-        computer.setCpu("奔腾处理器");
+        return "选择奔腾处理器";
     }
 
     @Override
-    public void choiceRAM() {
+    public Integer choiceRAM() {
         System.out.println("选择2g内存");
-        computer.setRam(2);
+        return 2;
     }
 
 }

@@ -1,5 +1,7 @@
 package builder;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * Created by youzhihao on 2017/3/5.
  * 建造者模式
@@ -10,11 +12,10 @@ public class Run {
 
     public static void main(String[] args) {
 
-        ComputerDirector lowComputerDirector = new ComputerDirector(new LowComputerBuilder());
-        lowComputerDirector.build();
-        ComputerDirector highComputerDirector = new ComputerDirector(new HighComputerBuilder());
-        highComputerDirector.build();
-
+        Computer highConputer = new HighComputerBuilder().build();
+        System.out.println(JSONObject.toJSONString(highConputer));
+        Computer lowComputer = new LowComputerBuilder().build();
+        System.out.println(JSONObject.toJSONString(lowComputer));
 
     }
 

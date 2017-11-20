@@ -13,7 +13,7 @@ public class Run {
 
     public static void main(String[] args) {
         Class aClass1 = new Class();
-        aClass1.setClassName("春天花花幼儿园");
+        aClass1.setClassName("春天花花幼儿园1");
         aClass1.setClassGrade(1);
         Student[] students = new Student[2];
         students[0] = new Student("小夫", 3);

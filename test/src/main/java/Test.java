@@ -1,5 +1,5 @@
 import com.alibaba.fastjson.JSONObject;
-import model.User;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,7 +12,13 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import model.User;
 
 /**
  * Created by youzhihao on 2016/9/27.
@@ -35,9 +41,7 @@ public class Test {
         //demo11();
         //demo12();
         //demo13();
-        demo14();
-        String str="http://weixin.qq.com/g/AbntRq-poa_Zjyot";
-        System.out.println(str);
+        //demo14();
     }
 
     public static void demo1() throws Exception {
@@ -53,7 +57,9 @@ public class Test {
         }
     }
 
-    /**演示java基本类型是传值还是传引用,结果：java基本类型是传值*/
+    /**
+     * 演示java基本类型是传值还是传引用,结果：java基本类型是传值
+     */
     public static void demo2() {
         int num = 2;
         demo2_1(num);
@@ -70,8 +76,7 @@ public class Test {
     }
 
     /**
-     * System.arraycopy（）在复制对象的时候，只会拷贝引用，没有深层复制对象，
-     * arrayList在扩容的时候也是调的这个方法，所以arrayList在扩容的时候性能不会很差
+     * System.arraycopy（）在复制对象的时候，只会拷贝引用，没有深层复制对象， arrayList在扩容的时候也是调的这个方法，所以arrayList在扩容的时候性能不会很差
      **/
     public static void demo4() {
         User[] users = new User[1];
@@ -97,7 +102,9 @@ public class Test {
         System.out.println(a);
     }
 
-    /**使用foreach接口debug，研究Iterable*/
+    /**
+     * 使用foreach接口debug，研究Iterable
+     */
     public static void demo6() {
         List<String> a = new ArrayList<String>();
         a.add("1");
@@ -107,7 +114,9 @@ public class Test {
         }
     }
 
-    /**integer对象，-127~127会使用integer.cache中的缓存进行对象引用，超出这个返回，会生成新对象，巨坑*/
+    /**
+     * integer对象，-127~127会使用integer.cache中的缓存进行对象引用，超出这个返回，会生成新对象，巨坑
+     */
     public static void demo7() {
         Integer num1 = 10;
         Integer num2 = 10;
@@ -117,7 +126,9 @@ public class Test {
         System.out.println(num1 == num2);
     }
 
-    /**try,catch,finally块中，如果finally中有返回，调用者一定获取finally中的结果*/
+    /**
+     * try,catch,finally块中，如果finally中有返回，调用者一定获取finally中的结果
+     */
     public static int demo8(boolean hasExcpetion) {
         try {
             if (hasExcpetion) {
@@ -184,10 +195,10 @@ public class Test {
         Collections.shuffle(list);//将数组随机排列一把
         System.out.println(JSONObject.toJSONString(list));
     }
-    public static void demo14(){
-        HashMap<String/* Namespace */, HashMap<String/* Key */, String/* Value */>> map=new HashMap<>();
 
-
-
+    public static void demo14() {
+        HashMap<String/* Namespace */, HashMap<String/* Key */, String/* Value */>> map = new HashMap<>();
     }
+
+
 }

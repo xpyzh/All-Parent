@@ -6,15 +6,15 @@ package builder;
 public class HighComputerBuilder extends ComputerBuilder {
 
     @Override
-    public void choiceCpu() {
+    public String choiceCpu() {
         System.out.println("选择i7处理器");
-        computer.setCpu("i7处理器");
+        return "选择i7处理器";
     }
 
     @Override
-    public void choiceRAM() {
+    public Integer choiceRAM() {
         System.out.println("选择32g内存");
-        computer.setRam(32);
+        return 32;
     }
 
 }
