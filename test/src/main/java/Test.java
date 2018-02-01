@@ -1,5 +1,5 @@
 import com.alibaba.fastjson.JSONObject;
-
+import model.User;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,13 +12,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import model.User;
+import java.util.*;
 
 /**
  * Created by youzhihao on 2016/9/27.
@@ -42,6 +36,7 @@ public class Test {
         //demo12();
         //demo13();
         //demo14();
+        demo15();
     }
 
     public static void demo1() throws Exception {
@@ -200,5 +195,13 @@ public class Test {
         HashMap<String/* Namespace */, HashMap<String/* Key */, String/* Value */>> map = new HashMap<>();
     }
 
+    public static void demo15() {
+        List<String> origin=new ArrayList<>();
+        origin.add("380104026@qq.com");
+        origin.add("380104026@qq.com");
+        origin.add("380104026@qq.com");
+        Set<String> set = new HashSet<>(origin);
+        List<String> to = new ArrayList<>(set);
+    }
 
 }

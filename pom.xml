@@ -16,6 +16,7 @@
         <module>util</module>
         <module>barcode</module>
         <module>zk</module>
+        <module>java8</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
