@@ -17,6 +17,8 @@
         <module>barcode</module>
         <module>zk</module>
         <module>java8</module>
+        <module>flink</module>
+        <module>logback</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -34,6 +36,8 @@
         <jedis.version>2.9.0</jedis.version>
         <zxing.version>3.3.0</zxing.version>
         <curator.version>4.0.0</curator.version>
+        <flink.version>1.4.2</flink.version>
+        <logback.version>1.2.3</logback.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -102,6 +106,27 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
                 <version>${curator.version}</version>
+            </dependency>
+            <!--flink-->
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-java</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-streaming-java_2.11</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-clients_2.11</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
