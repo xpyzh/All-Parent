@@ -1,13 +1,8 @@
 package amqp.client;
 
-import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.*;
 
 import java.io.IOException;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.MessageProperties;
-import com.rabbitmq.client.QueueingConsumer;
 
 /**
  * 使用rabbitmq的Publisher Confirms机制,去避免发送的消息丢失
@@ -20,7 +15,9 @@ public class ConfirmDontLoseMessages {
 
     final static String QUEUE_NAME = "confirm-test";
 
-    static ConnectionFactory connectionFactory;
+    static ConnectionFactory connectionFactory1;
+    static ConnectionFactory connectionFactory2;
+
 
     public static void main(String[] args)
             throws IOException, InterruptedException {
@@ -28,17 +25,28 @@ public class ConfirmDontLoseMessages {
             msgCount = Integer.parseInt(args[0]);
         }
 
-        connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost("127.0.0.1");
-        connectionFactory.setPort(5672);
-        connectionFactory.setUsername("yzh");
-        connectionFactory.setPassword("yzh");
-        connectionFactory.setConnectionTimeout(2000);
+        //生产
+        connectionFactory1 = new ConnectionFactory();
+        connectionFactory1.setHost("127.0.0.1");
+        connectionFactory1.setPort(5673);
+        connectionFactory1.setVirtualHost("rabbitmq-single");
+        connectionFactory1.setUsername("root");
+        connectionFactory1.setPassword("root");
+        connectionFactory1.setConnectionTimeout(2000);
+        //消费
+        connectionFactory2 = new ConnectionFactory();
+        connectionFactory2.setHost("127.0.0.1");
+        connectionFactory2.setPort(5672);
+        connectionFactory2.setVirtualHost("rabbitmq-single");
+        connectionFactory2.setUsername("root");
+        connectionFactory2.setPassword("root");
+        connectionFactory2.setConnectionTimeout(2000);
 
-        // Consume msgCount messages.
-        (new Thread(new Consumer(),"consumer")).start();
         // Publish msgCount messages and wait for confirms.
-        (new Thread(new Publisher(),"publisher")).start();
+        (new Thread(new Publisher(), "publisher")).start();
+        // Consume msgCount messages.
+        (new Thread(new Consumer(), "consumer")).start();
+
     }
 
     @SuppressWarnings("ThrowablePrintedToSystemOut")
@@ -49,27 +57,24 @@ public class ConfirmDontLoseMessages {
                 long startTime = System.currentTimeMillis();
 
                 // Setup
-                Connection conn = connectionFactory.newConnection();
+                Connection conn = connectionFactory1.newConnection();
                 Channel ch = conn.createChannel();
                 ch.queueDeclare(QUEUE_NAME, true, false, false, null);
                 //保证消息发送的可靠性
                 ch.confirmSelect();
                 // Publish
-                for (long i = 0; i < msgCount; ++i) {
+                for (long i = 0; i < 100; ++i) {
                     ch.basicPublish("", QUEUE_NAME,
                             MessageProperties.PERSISTENT_BASIC,
                             "nop".getBytes());
-                    Thread.currentThread().sleep(1000);
                 }
 
                 ch.waitForConfirms();
                 System.out.println("发送确认完毕");
                 ch.close();
                 conn.close();
-
                 long endTime = System.currentTimeMillis();
-                System.out.printf("Test took %.3fs\n",
-                        (float) (endTime - startTime) / 1000);
+                System.out.printf("Test took %.3fs\n", (float) (endTime - startTime) / 1000);
             } catch (Throwable e) {
                 System.out.println("foobar :(");
                 System.out.print(e);
@@ -83,7 +88,7 @@ public class ConfirmDontLoseMessages {
             Connection conn = null;
             try {
                 // Setup
-                conn = connectionFactory.newConnection();
+                conn = connectionFactory2.newConnection();
                 Channel ch = conn.createChannel();
                 ch.queueDeclare(QUEUE_NAME, true, false, false, null);
 
@@ -91,8 +96,8 @@ public class ConfirmDontLoseMessages {
                 QueueingConsumer qc = new QueueingConsumer(ch);
                 ch.basicConsume(QUEUE_NAME, true, qc);
                 while (true) {
-                    qc.nextDelivery();
-                    System.out.println(msgCount);
+                    QueueingConsumer.Delivery delivery = qc.nextDelivery();
+                    System.out.println(new String(delivery.getBody()));
                 }
                 // Cleanup
             } catch (Throwable e) {

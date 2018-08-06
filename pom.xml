@@ -19,11 +19,12 @@
         <module>java8</module>
         <module>flink</module>
         <module>logback</module>
+        <module>rocketmq</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
     <properties>
-        <rabbitmq.version>3.6.5</rabbitmq.version>
+        <rabbitmq.version>3.5.7</rabbitmq.version>
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
         <fast.json.version>1.2.4</fast.json.version>
@@ -38,6 +39,7 @@
         <curator.version>4.0.0</curator.version>
         <flink.version>1.4.2</flink.version>
         <logback.version>1.2.3</logback.version>
+        <rocketmq.client.verion>4.2.0</rocketmq.client.verion>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -127,6 +129,12 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.rocketmq/rocketmq-client -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq.client.verion}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
