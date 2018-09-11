@@ -39,6 +39,11 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.netease.yanxuan</groupId>
+            <artifactId>dts-core</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>
