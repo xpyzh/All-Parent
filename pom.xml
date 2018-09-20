@@ -20,6 +20,7 @@
         <module>flink</module>
         <module>logback</module>
         <module>rocketmq</module>
+        <module>fastjson</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -27,7 +28,7 @@
         <rabbitmq.version>3.5.7</rabbitmq.version>
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
-        <fast.json.version>1.2.4</fast.json.version>
+        <fast.json.version>1.2.47</fast.json.version>
         <slf4j.version>1.7.5</slf4j.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <junit.version>4.12</junit.version>
