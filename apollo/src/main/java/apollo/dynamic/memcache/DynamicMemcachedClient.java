@@ -1,9 +1,14 @@
 package apollo.dynamic.memcache;
 
+import com.ctrip.framework.apollo.model.ConfigChangeEvent;
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import net.spy.memcached.ConnectionFactory;
 import net.spy.memcached.HashAlgorithm;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.QueueFullException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.IOException;
@@ -17,8 +22,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by youzhihao on 2018/9/26.
+ * dynamic change memcached client
  */
+@EnableApolloConfig("dynamic-memcached")
 public class DynamicMemcachedClient extends MemcachedClient implements InitializingBean {
+
+    private static final Logger logger = LoggerFactory.getLogger("dynamic-memcached");
+
 
     private ConnectionFactory cf;
 
@@ -39,9 +49,24 @@ public class DynamicMemcachedClient extends MemcachedClient implements Initializ
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        MemcachedClient oldClient = this.defaultTargetClient;
         this.addrs = this.addrs.replace(";", ",");
         this.defaultTargetClient = new MemcachedClient(cf, Arrays.asList(this.addrs.split(",")), clientInnerCount);
+    }
+
+    @ApolloConfigChangeListener("dynamic-memcached")
+    public void onChange(ConfigChangeEvent changeEvent) {
+        if (changeEvent.isChanged("memcached.addrs")) {
+            try {
+                String oldAddrs = changeEvent.getChange("memcached.addrs").getOldValue();
+                String newAddrs = changeEvent.getChange("memcached.addrs").getNewValue();
+                setAddrs(newAddrs);
+                afterPropertiesSet();
+                logger.info("change memcached ip success! oldAddrs={},newAddrs={}", oldAddrs, newAddrs);
+            } catch (Throwable e) {
+                logger.error("change memcached ip fail!", e);
+            }
+
+        }
     }
 
     public boolean add(String _key, Object _value, Integer _hashCode) {

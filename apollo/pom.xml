@@ -41,6 +41,7 @@
         <dependency>
             <groupId>com.ctrip.framework.apolloY</groupId>
             <artifactId>apolloY-client</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
