@@ -1,5 +1,6 @@
 package fastjson;
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import fastjson.model.InvocationContext;
 import fastjson.model.PlainPackageBean;
 import fastjson.serialize.FastJsonSerialization;
@@ -10,7 +11,7 @@ import fastjson.serialize.FastJsonSerialization;
 public class Test {
     public static void main(String[] args)
     {
-//        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
         FastJsonSerialization serialization=new FastJsonSerialization();
         InvocationContext invocationContext=new InvocationContext();
         PlainPackageBean plainPackageBean=new PlainPackageBean();

@@ -21,6 +21,7 @@
         <module>logback</module>
         <module>rocketmq</module>
         <module>fastjson</module>
+        <module>apollo</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -41,6 +42,10 @@
         <flink.version>1.4.2</flink.version>
         <logback.version>1.2.3</logback.version>
         <rocketmq.client.verion>4.2.0</rocketmq.client.verion>
+        <apolloY.client.version>1.0.2-RELEASE</apolloY.client.version>
+        <!---netease inner version-->
+        <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
+        <net.spy.version>2.2.44</net.spy.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -136,6 +141,21 @@
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq.client.verion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ctrip.framework.apolloY</groupId>
+                <artifactId>apolloY-client</artifactId>
+                <version>${apolloY.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.spy</groupId>
+                <artifactId>memcached</artifactId>
+                <version>${net.spy.memcached.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.spy</groupId>
+                <artifactId>spy</artifactId>
+                <version>${net.spy.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
