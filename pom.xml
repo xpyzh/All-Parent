@@ -22,6 +22,7 @@
         <module>rocketmq</module>
         <module>fastjson</module>
         <module>apollo</module>
+        <module>memcached</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
