@@ -23,6 +23,7 @@
         <module>fastjson</module>
         <module>apollo</module>
         <module>memcached</module>
+        <module>javassist</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
