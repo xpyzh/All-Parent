@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "apollo")
 @ImportResource(value = "classpath:config/dynamic_application.xml")
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application extends SpringBootServletInitializer {
 
     @Override

@@ -24,6 +24,7 @@
         <module>apollo</module>
         <module>memcached</module>
         <module>javassist</module>
+        <module>aspectj</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
