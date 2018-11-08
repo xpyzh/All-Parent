@@ -25,6 +25,10 @@
         <module>memcached</module>
         <module>javassist</module>
         <module>aspectj</module>
+        <module>concurrency</module>
+        <module>ehcache</module>
+        <module>btrace</module>
+        <module>classloader</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -49,6 +53,7 @@
         <!---netease inner version-->
         <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
         <net.spy.version>2.2.44</net.spy.version>
+        <ehcache.version>3.6.1</ehcache.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -159,6 +164,11 @@
                 <groupId>net.spy</groupId>
                 <artifactId>spy</artifactId>
                 <version>${net.spy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

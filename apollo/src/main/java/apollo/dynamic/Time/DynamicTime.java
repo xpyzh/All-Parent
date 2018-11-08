@@ -26,7 +26,6 @@ public class DynamicTime {
 
     @Around("call(public static native long java.lang.System.currentTimeMillis())")
     public Object currentTimeMillis(ProceedingJoinPoint pjp) {
-        logger.info("aspectj weave currentTimeMillis success");
         Object time = null;
         try {
             if (DYNAMIC_TIME_MILLIS == null) {

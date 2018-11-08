@@ -10,14 +10,15 @@ import java.text.MessageFormat;
  */
 public class FederationTest {
 
-    final static String QUEUE_NAME = "confirm-test";
+    final static String QUEUE_NAME = "test";
+    final static String EXCHANGE_NAME = "test_exchange";
 
     public static void main(String[] args) {
-        (new Thread(new Publisher(5672, 1), "publisher")).start();
-        (new Thread(new Publisher(5673, 1), "publisher")).start();
+        //(new Thread(new Publisher(5672, 1), "publisher")).start();
+        //(new Thread(new Publisher(5673, 1), "publisher")).start();
         // Consume msgCount messages.
-        (new Thread(new Consumer(5672, 0), "consumer")).start();
-        (new Thread(new Consumer(5673, 5), "consumer")).start();
+        //(new Thread(new Consumer(5672, 0), "consumer")).start();
+        //(new Thread(new Consumer(5673, 1), "consumer")).start();
     }
 
 
@@ -47,7 +48,8 @@ public class FederationTest {
                 ch.basicQos(1);
                 while (true) {
                     String message = MessageFormat.format("message from by {0}", String.valueOf(connectionFactory.getPort()));
-                    ch.basicPublish("", QUEUE_NAME,
+                    System.out.println("端口" + connectionFactory.getPort() + "发送消息消息:" + message);
+                    ch.basicPublish(EXCHANGE_NAME, QUEUE_NAME,
                             MessageProperties.PERSISTENT_BASIC,
                             message.getBytes());
                     Thread.currentThread().sleep(this.sleep * 1000);

@@ -1,5 +1,7 @@
 import com.alibaba.fastjson.JSONObject;
+
 import model.User;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,6 +15,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by youzhihao on 2016/9/27.
@@ -36,7 +43,9 @@ public class Test {
         //demo12();
         //demo13();
         //demo14();
-        demo15();
+        //demo15();
+        //demo16();
+        demo17();
     }
 
     public static void demo1() throws Exception {
@@ -196,12 +205,91 @@ public class Test {
     }
 
     public static void demo15() {
-        List<String> origin=new ArrayList<>();
+        List<String> origin = new ArrayList<>();
         origin.add("380104026@qq.com");
         origin.add("380104026@qq.com");
         origin.add("380104026@qq.com");
         Set<String> set = new HashSet<>(origin);
         List<String> to = new ArrayList<>(set);
+    }
+
+    //比较两种迭代方式速度
+    public static void demo16() {
+        //init
+        int loopNum = 10000000;
+        Map<String, String> map1 = new HashMap<>();
+        for (int i = 1; i <= loopNum; i++) {
+            map1.put(String.valueOf(i), String.valueOf(i));
+        }
+        Map<String, String> map2 = new HashMap<>();
+        for (int i = 1; i <= loopNum; i++) {
+            map2.put(String.valueOf(i), String.valueOf(i));
+        }
+        //iterator
+        Long startTime2 = System.currentTimeMillis();
+        for (Iterator<Map.Entry<String, String>> it = map2.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, String> entry = it.next();
+            entry.getKey();
+            entry.getValue();
+        }
+        Long durationTime2 = System.currentTimeMillis() - startTime2;
+        System.out.println("for:" + durationTime2);
+
+        //for
+        Long startTime1 = System.currentTimeMillis();
+        for (Map.Entry<String, String> entries : map1.entrySet()) {
+            entries.getKey();
+            entries.getValue();
+        }
+        Long durationTime1 = System.currentTimeMillis() - startTime1;
+        System.out.println("for:" + durationTime1);
+    }
+
+    //模拟任务执行时间长于调度周期
+    public static void demo17() {
+        ScheduledThreadPoolExecutor scheduled = new ScheduledThreadPoolExecutor(10, new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                System.out.println("discard");
+            }
+        });
+        scheduled.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println(111111);
+                    Thread.sleep(10000);
+                    System.out.println(111111);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 1, TimeUnit.MILLISECONDS);
+        scheduled.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println(222222);
+                    Thread.sleep(10000);
+                    System.out.println(222222);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 1, TimeUnit.MILLISECONDS);
+        scheduled.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println(333333);
+                    System.out.println("TaskCount:" + scheduled.getQueue().size());
+                    System.out.println(333333);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
+        scheduled.getTaskCount();
     }
 
 }

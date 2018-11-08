@@ -18,5 +18,4 @@ public class DynamicTimeTest {
         System.out.println("new Date().getTime():" + new Date().getTime());
         return "";
     }
-
 }
