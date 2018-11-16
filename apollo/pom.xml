@@ -41,9 +41,11 @@
             <artifactId>spy</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ctrip.framework.apolloY</groupId>
-            <artifactId>apolloY-client</artifactId>
-            <scope>compile</scope>
+            <groupId>com.ctrip.framework.apollo</groupId>
+            <artifactId>apollo-client</artifactId>
+            <version>1.2.0</version>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>/Users/youzhihao/.m2/repository/com/ctrip/framework/apollo/apollo-client/1.2.0-SNAPSHOT/apollo-client-1.2.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

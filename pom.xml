@@ -49,7 +49,6 @@
         <flink.version>1.4.2</flink.version>
         <logback.version>1.2.3</logback.version>
         <rocketmq.client.verion>4.2.0</rocketmq.client.verion>
-        <apolloY.client.version>1.0.2-RELEASE</apolloY.client.version>
         <!---netease inner version-->
         <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
         <net.spy.version>2.2.44</net.spy.version>
@@ -149,11 +148,6 @@
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq.client.verion}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ctrip.framework.apolloY</groupId>
-                <artifactId>apolloY-client</artifactId>
-                <version>${apolloY.client.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.spy</groupId>

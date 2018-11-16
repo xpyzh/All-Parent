@@ -1,7 +1,5 @@
 import com.alibaba.fastjson.JSONObject;
 
-import model.User;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,12 +12,23 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import model.User;
 
 /**
  * Created by youzhihao on 2016/9/27.
@@ -45,7 +54,9 @@ public class Test {
         //demo14();
         //demo15();
         //demo16();
-        demo17();
+        //demo17();
+        demo18();
+
     }
 
     public static void demo1() throws Exception {
@@ -292,4 +303,28 @@ public class Test {
         scheduled.getTaskCount();
     }
 
+    public static void demo18() {
+        String apiInfo = "com.netease.mail.yanxuan.dschedule.admin.dao.DscheduleRegistryDao.registryUpdate";
+        Matcher matcher = Pattern.compile("(.*)\\.(.*\\(.*\\))").matcher(apiInfo);
+//        if (matcher.find()) {
+//            System.out.println(matcher.group(1));
+//            System.out.println(matcher.group(2));
+//        }
+//        matcher = Pattern.compile(".*\\.(.*\\..*\\(.*\\))").matcher(apiInfo);
+//        if (matcher.find()) {
+//            System.out.println(matcher.group(1));
+//        }
+//        matcher = Pattern.compile(".*\\.(.*\\..*)\\(.*").matcher(apiInfo);
+//        if (matcher.find()) {
+//            System.out.println(matcher.group(1));
+//        }
+         matcher = Pattern.compile(".*\\.(.*)\\.(.*)").matcher(apiInfo);
+        if (matcher.find()) {
+            System.out.println(matcher.group(1));
+            System.out.println(matcher.group(2));
+        }
+    }
 }
+
+
+

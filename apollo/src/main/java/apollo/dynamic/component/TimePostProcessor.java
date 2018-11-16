@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * Created by youzhihao on 2018/10/27.
+ * 目的是监控每一个bean的初始化时间，看样子这个不是很准？后面可以从spring内部类做aop着手试试
  */
 @Component
 public class TimePostProcessor implements BeanPostProcessor, Ordered, SmartLifecycle {
