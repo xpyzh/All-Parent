@@ -29,6 +29,7 @@
         <module>ehcache</module>
         <module>btrace</module>
         <module>classloader</module>
+        <module>apollo-demo</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
