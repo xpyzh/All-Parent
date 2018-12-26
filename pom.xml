@@ -23,13 +23,19 @@
         <module>fastjson</module>
         <module>apollo</module>
         <module>memcached</module>
-        <module>javassist</module>
+        <!--<module>javassist</module>-->
         <module>aspectj</module>
         <module>concurrency</module>
         <module>ehcache</module>
         <module>btrace</module>
         <module>classloader</module>
         <module>apollo-demo</module>
+        <module>jvm</module>
+        <module>redis</module>
+        <module>transaction</module>
+        <module>gts</module>
+        <module>leetcode</module>
+        <module>alogrithm</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -49,15 +55,24 @@
         <curator.version>4.0.0</curator.version>
         <flink.version>1.4.2</flink.version>
         <logback.version>1.2.3</logback.version>
+        <rocketmq.client.verion>4.4.0-SNAPSHOT</rocketmq.client.verion>
         <rocketmq.client.verion>4.2.0</rocketmq.client.verion>
         <!---netease inner version-->
         <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
         <net.spy.version>2.2.44</net.spy.version>
         <ehcache.version>3.6.1</ehcache.version>
+        <spring.boot.version>2.0.5.RELEASE</spring.boot.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.rabbitmq</groupId>
                 <artifactId>amqp-client</artifactId>

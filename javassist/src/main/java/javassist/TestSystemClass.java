@@ -1,7 +1,5 @@
 package javassist;
 
-import javassist.bytecode.ConstPool;
-import javassist.bytecode.MethodInfo;
 import javassist.util.HotSwapper;
 
 import java.util.concurrent.Executors;

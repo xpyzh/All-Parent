@@ -25,7 +25,7 @@ public class AsyncProducer {
         try {
             String groupName = "test";
             final DefaultMQProducer producer = new DefaultMQProducer(groupName);
-            producer.setNamesrvAddr("127.0.0.1:9876");
+            producer.setNamesrvAddr("10.216.40.201:9876");
             producer.setRetryTimesWhenSendAsyncFailed(3);
             producer.start();
             Executors.newFixedThreadPool(1).submit(new Runnable() {
@@ -44,7 +44,7 @@ public class AsyncProducer {
                                 public void onException(Throwable e) {
                                     System.out.println("发送消息失败:" + time);
                                 }
-                            });
+                            },1000);
                             Thread.currentThread().sleep(500);
                         } catch (Exception e) {
                             e.printStackTrace();
