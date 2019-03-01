@@ -1,11 +1,20 @@
 package transaction.controller;
 
+import org.apache.catalina.core.ApplicationContext;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.Aware;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import transaction.Application;
 import transaction.po.User;
+import transaction.service.JdkProxyService;
 import transaction.service.UserService;
+import transaction.service.UserServiceImpl;
 
 /**
  * Created by youzhihao on 2018/12/20.
@@ -24,9 +33,19 @@ import transaction.service.UserService;
  *
  */
 @RestController
-public class TestController {
+public class TestController{
     @Autowired
     private UserService userService;
+    @Autowired
+    private User user;
+
+    @Autowired
+    private User user1;
+    @Autowired
+    private BeanFactory beanFactory;
+
+    @Autowired
+    private JdkProxyService jdkProxyService;
 
 
     @RequestMapping("/mockSingleTx")
@@ -43,4 +62,17 @@ public class TestController {
     public void mockRequiresNewTx() {
         userService.mockRequiresNewTx(new User("youzhihao"));
     }
+
+    @RequestMapping("/test")
+    public void test() {
+        Class proxy=beanFactory.getBean(UserServiceImpl.class).getClass();
+        Class origin=UserServiceImpl.class;
+        ClassUtils.isAssignable(origin,proxy);
+    }
+
+    @RequestMapping("/jdkProxyTest")
+    public void jdkProxyTest() {
+        jdkProxyService.test();
+    }
+
 }

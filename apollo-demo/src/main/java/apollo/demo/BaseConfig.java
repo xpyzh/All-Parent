@@ -13,10 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableApolloConfig
 public class BaseConfig {
-    static {
-        System.setProperty("normal.field", "System.setProperty");
-
-    }
+//    static {
+//        System.setProperty("normal.field", "System.setProperty");
+//    }
 
     @Value("${normal.field}")
     private String normalField;

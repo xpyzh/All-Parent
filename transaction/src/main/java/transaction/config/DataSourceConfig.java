@@ -1,7 +1,11 @@
 package transaction.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.ConnectionProperties;
 import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
@@ -20,9 +24,10 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
     //数据库路径
-    final private String userName = "root";
-
-    final private String password = "root";
+    @Value("${username}")
+    private String userName = "root";
+    @Value("${password}")
+    private String password = "root";
 
 
     @Bean(value = "dataSource")

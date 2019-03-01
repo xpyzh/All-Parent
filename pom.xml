@@ -34,8 +34,13 @@
         <module>redis</module>
         <module>transaction</module>
         <module>gts</module>
-        <module>leetcode</module>
         <module>alogrithm</module>
+        <module>guava</module>
+        <module>curator</module>
+        <module>jmeter</module>
+        <module>proxy</module>
+        <module>resilience4j</module>
+        <module>agent</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->

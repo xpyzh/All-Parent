@@ -1,3 +1,5 @@
+package zxing;
+
 import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.codec.binary.Base64;

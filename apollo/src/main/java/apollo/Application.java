@@ -20,7 +20,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "apollo")
 @ImportResource(value = "classpath:config/dynamic_application.xml")
-@EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableAspectJAutoProxy(proxyTargetClass = false)
 public class Application extends SpringBootServletInitializer {
 
     @Override

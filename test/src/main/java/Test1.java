@@ -1,46 +1,74 @@
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.Field;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
- * Created by youzhihao on 2017/9/6.
+ * 链表
+ * Created by youzhihao on 2019/2/19.
  */
 public class Test1 {
 
-    public static void main(String[] args) throws Exception {
-        final Something oldAnnotation = (Something) Foobar.class.getAnnotations()[0];
-        System.out.println("oldAnnotation = " + oldAnnotation.someProperty());
-        Annotation newAnnotation = new Something() {
-
-            @Override
-            public String someProperty() {
-                return "another value";
-            }
-
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return oldAnnotation.annotationType();
-            }
-        };
-        Field field = Class.class.getDeclaredField("annotations");
-        field.setAccessible(true);
-        Map<Class<? extends Annotation>, Annotation> annotations = (Map<Class<? extends Annotation>, Annotation>) field.get(Foobar.class);
-        annotations.put(Something.class, newAnnotation);
-
-        Something modifiedAnnotation = (Something) Foobar.class.getAnnotations()[0];
-        System.out.println("modifiedAnnotation = " + modifiedAnnotation.someProperty());
-    }
-
-    @Something(someProperty = "some value")
-    public static class Foobar {
+    public static void main(String[] args) {
+        CustomLinkedList<String> linkedList=new CustomLinkedList<>();
+        linkedList.add("A");
+        linkedList.add("B");
+        linkedList.add("C");
+        linkedList.add("D");
+        linkedList.remove();
 
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface Something {
 
-        String someProperty();
+    static class CustomLinkedList<E> {
+
+        private Node<E> first;
+
+        private Node<E> last;
+
+        private int size;
+
+        public CustomLinkedList() {
+        }
+
+        public boolean add(E e) {
+            final Node<E> l = last;
+            final Node<E> newNode = new Node<>(l, e, null);
+            last = newNode;
+            if (l == null)
+                first = newNode;
+            else
+                l.next = newNode;
+            size++;
+            return true;
+        }
+
+        public E remove() {
+            final Node<E> f = first;
+            if (f == null)
+                throw new NoSuchElementException();
+            final E element = f.item;
+            final Node<E> next = f.next;
+            first = next;
+            if (next == null)
+                last = null;
+            else
+                next.prev = null;
+            size--;
+            return element;
+        }
+
+
+       static class Node<E> {
+
+            private E item;
+
+            private Node<E> next;
+
+            private Node<E> prev;
+
+            Node(Node<E> prev, E element, Node<E> next) {
+                this.item = element;
+                this.next = next;
+                this.prev = prev;
+            }
+        }
     }
 }

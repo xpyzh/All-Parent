@@ -25,11 +25,11 @@
             </snapshots>
         </repository>
     </repositories>
-    <dependencies>
-        <dependency>
-            <groupId>com.netease.edu.eds</groupId>
-            <artifactId>gts-spring-boot-starter-dubbo</artifactId>
-            <version>1.0.1.first_20181217-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <!--<dependencies>-->
+        <!--<dependency>-->
+            <!--<groupId>com.netease.edu.eds</groupId>-->
+            <!--<artifactId>gts-spring-boot-starter-dubbo</artifactId>-->
+            <!--<version>1.0.1.first_20181217-SNAPSHOT</version>-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
 </project>
