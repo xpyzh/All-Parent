@@ -3,7 +3,7 @@ package alogrithm;
 /**
  * 冒泡排序
  * 特点:
- *  1.稳定: 相同元素，插入排序后能保持原有相对的位置
+ *  1.稳定: 相同元素，排序后能保持原有相对的位置
  *  2.空间复杂度: o(1)
  *  3.比较复杂度: o(n^2)
  *  4.交换复杂度: o(n^2)
@@ -20,27 +20,42 @@ package alogrithm;
  *     break if not swapped
  * end
  * Created by youzhihao on 2018/12/24.
+ *
+ * 其他:
+ *  1. 鸡尾酒排序: 基于冒泡排序的另一种优化排序，冒泡排序是从左往右交换，而鸡尾酒排序是先从左往右，然后再从右往左，再从左往右...，从而解决
+ *  23456781，这种排序场景。如果用冒泡排序，需要遍历8轮，而用鸡尾酒排序，只需要遍历3轮（第二轮虽然已经有序，但是还需要新一轮来判断有没有元素交换
+ *  如果没有元素交换则表示数组完全有序）
  */
 public class BubbleSort extends AbstractSort {
+
     public static void main(String[] args) {
         new BubbleSort().testManyTimes();
     }
 
     @Override
     public void sort(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
+        //优化点1: 记录最后一次交换的位置
+        int lastExchangeIndex = 0;
+        //优化点1: 记录有序边界位置
+        int sortStartIndex = arr.length - 1;
+        for (int i = 0; i < arr.length - 1; i++) {
+            //优化点2: 记录是否进行了交换
             boolean swap = false;
-            for (int j = arr.length - 1; j > 0; j--) {
-                if (arr[j] < arr[j - 1]) {
-                    int temp = arr[j - 1];
-                    arr[j - 1] = arr[j];
-                    arr[j] = temp;
+            for (int j = 0; j < sortStartIndex; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
                     swap = true;
+                    lastExchangeIndex = j;
                 }
             }
-            if (!swap) {//如果没有一个要交换的元素，则表明已经排好序，直接返回
-                break;
+            sortStartIndex = lastExchangeIndex;
+            //如果没有交换，则表示数组已经完全有序
+            if (!swap) {
+                return;
             }
+
         }
     }
 }

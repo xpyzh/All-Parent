@@ -9,6 +9,7 @@ import java.util.Random;
  * 堆排序
  */
 public abstract class AbstractSort {
+
     private final static int TEST_TIMES = 100;
 
     //sort by asc
@@ -36,6 +37,7 @@ public abstract class AbstractSort {
         //check
         for (int i = 0; i < arrIn.length - 1; i++) {
             if (arrIn[i] > arrIn[i + 1]) {
+                System.out.println("[OUT]:" + JSONObject.toJSONString(arrIn));
                 throw new RuntimeException("sort error,please check!");
             }
         }
