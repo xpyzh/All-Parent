@@ -1,6 +1,4 @@
-package apollo.demo;
-
-/**
+package pinpoint.demo; /**
  * Created by youzhihao on 2018/9/26.
  */
 
@@ -10,18 +8,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * debug apollo的客户端端专用模块
- * -Dapp.id=apollo-demo -Dspring.profiles.active=dev -Denv=dev -Dapollo.meta=http://127.0.0.1:8080
+ * debug pinpoint的客户端端专用模块
+ *
  * @author youzhihao
  */
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "apollo.demo")
-@EnableAspectJAutoProxy(proxyTargetClass = false)
-@EnableTransactionManagement
+@ComponentScan(basePackages = "pinpoint.demo")
 public class Application extends SpringBootServletInitializer {
 
     @Override

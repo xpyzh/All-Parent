@@ -41,6 +41,7 @@
         <module>proxy</module>
         <module>resilience4j</module>
         <module>agent</module>
+        <module>pinpoint-demo</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->

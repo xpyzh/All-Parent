@@ -72,7 +72,7 @@ public class MyPriorityQueue {
     }
 
     /**
-     * 最大二叉堆，进行下浮操作
+     * 最大二叉堆，进行下沉操作
      */
     private void downAdjust() {
         int parentIndex = 0;
