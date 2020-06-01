@@ -42,6 +42,8 @@
         <module>resilience4j</module>
         <module>agent</module>
         <module>pinpoint-demo</module>
+        <module>jsql-parser</module>
+        <module>mqtt</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
