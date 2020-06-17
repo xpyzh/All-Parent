@@ -1,0 +1,35 @@
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path:
+logging:
+  config: classpath:logback-spring.xml
+spring:
+  datasource:
+    name: thrall_user
+    url: jdbc:mysql://10.23.12.4:8635/thrall_user?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: Unicom@1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      maxActive: 20
+      initialSize: 10
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      # 用于配置Web和Druid数据源之间的管理关联监控统计
+      web-stat-filter:
+        enabled: true
+      # 配置监控管理界面
+      stat-view-servlet:
+        enabled: true

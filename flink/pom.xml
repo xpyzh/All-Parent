@@ -26,6 +26,12 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients_${scala.binary.version}</artifactId>
         </dependency>
+        <!--datastream api demo依赖-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-walkthrough-common_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-walkthrough-common_${scala.binary.version}</artifactId>

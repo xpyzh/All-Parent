@@ -44,6 +44,7 @@
         <module>pinpoint-demo</module>
         <module>jsql-parser</module>
         <module>mqtt</module>
+        <module>durid</module>
     </modules>
     <packaging>pom</packaging>
     <!---管理版本号-->
@@ -52,7 +53,6 @@
         <netty.version>4.1.5.Final</netty.version>
         <guava.version>19.0</guava.version>
         <fast.json.version>1.2.47</fast.json.version>
-        <slf4j.version>1.8.0-beta4</slf4j.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <junit.version>4.12</junit.version>
         <http.client.version>4.4.1</http.client.version>
@@ -69,7 +69,7 @@
         <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
         <net.spy.version>2.2.44</net.spy.version>
         <ehcache.version>3.6.1</ehcache.version>
-        <spring.boot.version>2.0.5.RELEASE</spring.boot.version>
+        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
     </properties>
     <!--管理依赖-->
     <dependencyManagement>
@@ -100,16 +100,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fast.json.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -196,11 +186,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
     <build>

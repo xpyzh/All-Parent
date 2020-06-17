@@ -11,22 +11,10 @@
 
     <artifactId>apollo</artifactId>
     <properties>
-        <spring.boot.version>2.0.5.RELEASE</spring.boot.version>
         <slf4j.version>1.7.6</slf4j.version>
         <!--指定aspectj的版本，1.8.10有bug,springboot自动装载找不到对应的类-->
         <aspectj.version>1.8.9</aspectj.version>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
