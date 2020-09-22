@@ -30,7 +30,7 @@ public class ClusteringPullConsumer {
             for (MessageQueue queue : queueSet) {
                 long offset = consumer.fetchConsumeOffset(queue, true);
                 System.out.println(MessageFormat.format("queueId={0},offset={1}", queue.getQueueId(), offset));
-                PullResult pullResult = consumer.pull(queue, null, offset, 100);
+                PullResult pullResult = consumer.pull(queue, "", offset, 100);
                 for (MessageExt messageExt : pullResult.getMsgFoundList()) {
                     System.out.println("消费成功:" + new String(messageExt.getBody()));
                 }

@@ -61,8 +61,7 @@
         <jedis.version>2.9.0</jedis.version>
         <zxing.version>3.3.0</zxing.version>
         <curator.version>4.0.0</curator.version>
-        <rocketmq.client.verion>4.4.0-SNAPSHOT</rocketmq.client.verion>
-        <rocketmq.client.verion>4.2.0</rocketmq.client.verion>
+        <rocketmq.client.verion>4.5.0</rocketmq.client.verion>
         <!---netease inner version-->
         <net.spy.memcached.version>blog_2.1</net.spy.memcached.version>
         <net.spy.version>2.2.44</net.spy.version>
@@ -178,5 +177,19 @@
             </plugin>
         </plugins>
     </build>
+    <!--仓库配置-->
+    <repositories>
+        <!--阿里云-->
+        <repository>
+            <id>centre</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

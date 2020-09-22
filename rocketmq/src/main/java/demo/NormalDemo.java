@@ -21,16 +21,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NormalDemo {
 
-    private static final String NAMESRV = "127.0.0.1:9876";
+    private static final String NAMESRV = "10.23.12.75:30979";
 
-    private static final String TOPIC = "test";
+    private static final String TOPIC = "test2";
 
-    private static final String PRODUCER_GROUP = "normal-producer-group";
+    private static final String PRODUCER_GROUP = "normal-producer-group2";
 
-    private static final String CONSUMER_GROUP = "normal-consumer-group";
+    private static final String CONSUMER_GROUP = "normal-consumer-group2";
 
     public static void main(String[] args) throws Exception {
-        //new Producer().start();
+        new Producer().start();
         new Consumer().start();
     }
 

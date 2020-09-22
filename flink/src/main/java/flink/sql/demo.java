@@ -1,4 +1,4 @@
-package flink.sql.stream;
+package flink.sql;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;

@@ -25,7 +25,7 @@ public class AsyncProducer {
         try {
             String groupName = "test";
             final DefaultMQProducer producer = new DefaultMQProducer(groupName);
-            producer.setNamesrvAddr("10.216.40.201:9876");
+            producer.setNamesrvAddr("10.23.12.75:30979");
             producer.setRetryTimesWhenSendAsyncFailed(3);
             producer.start();
             Executors.newFixedThreadPool(1).submit(new Runnable() {
