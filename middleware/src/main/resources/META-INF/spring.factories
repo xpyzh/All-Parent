@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+yzh.com.spring.config.MiddleWareAutoConfiguration
