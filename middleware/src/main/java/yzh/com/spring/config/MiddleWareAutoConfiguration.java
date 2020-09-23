@@ -24,7 +24,4 @@ public class MiddleWareAutoConfiguration {
     public void test() {
      System.out.println(middlewareProperties);
     }
-
-
-
 }

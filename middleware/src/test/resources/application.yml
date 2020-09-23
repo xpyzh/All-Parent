@@ -1,2 +1,10 @@
 middleware:
-  appCode: middleware
+  app-code: middleware
+  # map+嵌套对象
+  middlewareProperties:
+    database:
+      name: databaseMiddleware
+      version: 1.0.0-RELEASE
+    auth:
+      name: authMiddleware
+      version: 2.0.0-RELEASE
