@@ -1,5 +1,6 @@
 middleware:
   app-code: middleware
+  config-path: ["/path1","/path2"]
   # map+嵌套对象
   middlewareProperties:
     database:

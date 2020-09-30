@@ -1,4 +1,4 @@
-package yzh.com.spring.config;
+package yzh.com.middleware.config;
 
 import lombok.Data;
 

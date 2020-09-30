@@ -47,6 +47,7 @@
         <module>mqtt</module>
         <module>durid</module>
         <module>middleware</module>
+        <module>spring-boot</module>
     </modules>
 
     <!---管理版本号-->

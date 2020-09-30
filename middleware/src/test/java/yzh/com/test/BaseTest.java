@@ -18,7 +18,6 @@ public class BaseTest {
 
     @Test
     public void testDemo1() {
-        System.out.println("111111");
     }
 }
 

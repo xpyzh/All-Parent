@@ -1,4 +1,4 @@
-package yzh.com.spring.config;
+package yzh.com.middleware.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,11 +18,14 @@ import java.util.Map;
 @Data
 public class MiddlewareProperties {
 
-    //定义前缀
+    //定义前缀P
     public static final String PREFIX = "middleware";
 
-    //普通对象
+    //普通字符串
     private String appCode;
+
+    //数组字符串
+    private String[] configPath;
 
     //嵌套对象
     private Map<String, MiddlewareProperty> middlewareProperties = new LinkedHashMap<>();

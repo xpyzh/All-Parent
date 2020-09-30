@@ -1,15 +1,14 @@
 package yzh.com.test;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * web 入口
  *
  * @author youzhihao
  */
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages = "yzh.com.spring.config")
 public class Application {
 
     public static void main(String[] args) {

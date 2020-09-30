@@ -1,0 +1,4 @@
+# 自定义配置文件不识别yaml格式
+# 如果把aplication中的middleware.app-code对应配置删除，就会加载这里的
+# 原因是PropertySource是有顺序的
+middleware.app-code=middleware1

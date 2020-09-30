@@ -1,0 +1,14 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /spring-boot
+spring:
+  application:
+    name: spring-boot
+dubbo:
+  application:
+    name:  thrall-user
+  registry:
+    address: 127.0.0.1:2181
+    protocol: zookeeper
